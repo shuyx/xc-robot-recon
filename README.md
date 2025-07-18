@@ -132,6 +132,26 @@ docker-compose up -d
 ### 生产环境
 详见 [部署文档](docs/deployment.md)
 
+## 分支策略
+
+### 分支说明
+- **main**: 主分支，稳定版本
+- **develop**: 开发分支，功能集成
+- **feature/***: 功能分支，新功能开发
+- **release/***: 发布分支，版本发布
+- **hotfix/***: 热修复分支，紧急修复
+
+### 开发流程
+1. 从 `develop` 分支创建 `feature/功能名` 分支
+2. 在功能分支完成开发和测试
+3. 提交 Pull Request 合并到 `develop`
+4. 测试通过后，从 `develop` 创建 `release/版本号` 分支
+5. 发布测试通过后，合并到 `main` 并打标签
+
+### 重构文档
+- [重构系统设计](xc_recon_system.md)
+- [重构实施记录](xc_recon_1.md)
+
 ## 开发指南
 
 - [API文档](docs/api.md)
