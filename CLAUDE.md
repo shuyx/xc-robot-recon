@@ -29,10 +29,10 @@
 
 ### 🔥 必读核心文档 (优先级P0)
 ```bash
-@docs/technical/xc_os_context.md   # 🎯 项目背景和约束 (最重要)
-@xc_recon_8.md                     # 📈 最新开发状态 (2025-07-19)
-@docs/README.md                    # 📖 完整文档导航
-@docs/technical/PROJECT_TECHNICAL_OVERVIEW.md  # 🏗️ 系统架构
+@xc-robot-wiki/technical/xc_os_context.md   # 🎯 项目背景和约束 (最重要)
+@xc_recon_8.md                              # 📈 最新开发状态 (2025-07-19)
+@xc-robot-wiki/README.md                    # 📖 完整文档导航
+@xc-robot-wiki/technical/PROJECT_TECHNICAL_OVERVIEW.md  # 🏗️ 系统架构
 ```
 
 ### 🎨 前端开发关键资源
@@ -40,7 +40,7 @@
 # Vue 3前端项目
 @frontend/xc-recon-frontend/        # 前端项目根目录
 @frontend/xc-recon-frontend/src/    # 源代码
-@docs/design/design_reference/      # UI/UX设计规范 ⭐⭐⭐⭐⭐
+@xc-robot-wiki/design/design_reference/      # UI/UX设计规范 ⭐⭐⭐⭐⭐
 
 # 重要文件
 @frontend/xc-recon-frontend/src/stores/user.ts    # 用户状态管理
@@ -63,9 +63,9 @@
 
 ### 🔧 硬件和配置资源
 ```bash
-@docs/hardware/FR3_ROBOT_ANALYSIS.md     # FR3机械臂技术规格 ⭐⭐⭐⭐⭐
-@docs/hardware/robot_config_reference.json  # 跨平台配置参考
-@docs/testing/Testing_Plan.md               # 测试和安全规范
+@xc-robot-wiki/hardware/FR3_ROBOT_ANALYSIS.md     # FR3机械臂技术规格 ⭐⭐⭐⭐⭐
+@xc-robot-wiki/hardware/robot_config_reference.json  # 跨平台配置参考
+@xc-robot-wiki/testing/Testing_Plan.md               # 测试和安全规范
 ```
 
 ---
@@ -178,20 +178,20 @@ python -m mypy .              # 类型检查
 ## 🎯 Claude工作指南
 
 ### 任务执行模式
-1. **🎯 确认背景**: `@docs/technical/xc_os_context.md` 确认项目约束
+1. **🎯 确认背景**: `@xc-robot-wiki/technical/xc_os_context.md` 确认项目约束
 2. **📈 检查状态**: `@xc_recon_8.md` 了解最新进展  
 3. **🔍 精确定位**: 根据任务类型查找对应文档和代码
-4. **📖 查阅详情**: `@docs/README.md` 获取完整文档导航
+4. **📖 查阅详情**: `@xc-robot-wiki/README.md` 获取完整文档导航
 
 ### 常见任务类型和资源映射
 
 | 任务类型 | 主要参考资源 | 关键文件 |
 |---------|-------------|---------|
-| **前端界面开发** | `@docs/design/design_reference/` | `MainLayout.vue`, `Dashboard.vue` |
-| **API接口开发** | `@docs/technical/PROJECT_TECHNICAL_OVERVIEW.md` | `endpoints/*.py` |
-| **设备集成** | `@docs/hardware/FR3_ROBOT_ANALYSIS.md` | `devices.py`, `config.py` |
-| **测试和验证** | `@docs/testing/Testing_Plan.md` | `tests/`, `Testing_Programs_Guide.md` |
-| **部署和配置** | `@docs/development/DEPLOYMENT_GUIDE.md` | `config/app.yml` |
+| **前端界面开发** | `@xc-robot-wiki/design/design_reference/` | `MainLayout.vue`, `Dashboard.vue` |
+| **API接口开发** | `@xc-robot-wiki/technical/PROJECT_TECHNICAL_OVERVIEW.md` | `endpoints/*.py` |
+| **设备集成** | `@xc-robot-wiki/hardware/FR3_ROBOT_ANALYSIS.md` | `devices.py`, `config.py` |
+| **测试和验证** | `@xc-robot-wiki/testing/Testing_Plan.md` | `tests/`, `Testing_Programs_Guide.md` |
+| **部署和配置** | `@xc-robot-wiki/development/DEPLOYMENT_GUIDE.md` | `config/app.yml` |
 
 ### 代码修改原则
 - ✅ **先读后写**: 使用Read工具查看现有代码再进行修改
@@ -202,7 +202,7 @@ python -m mypy .              # 类型检查
 
 ### 问题解决路径
 ```
-遇到问题 → 查阅@docs/README.md → 定位相关文档 → 查看现有代码 → 提出解决方案
+遇到问题 → 查阅@xc-robot-wiki/README.md → 定位相关文档 → 查看现有代码 → 提出解决方案
 ```
 
 ---
@@ -212,7 +212,7 @@ python -m mypy .              # 类型检查
 ### 硬件约束
 - **FR3机械臂**: IP配置192.168.58.2(右臂)/192.168.58.3(左臂)
 - **开发环境**: Mac环境使用仿真模式，避免真实硬件依赖
-- **网络配置**: 参考`@docs/hardware/robot_config_reference.json`
+- **网络配置**: 参考`@xc-robot-wiki/hardware/robot_config_reference.json`
 
 ### 技术约束  
 - **Python版本**: 3.11.10 (已统一)
@@ -230,10 +230,10 @@ python -m mypy .              # 类型检查
 ## 📝 快速参考清单
 
 ### 需要AI协助时的必备信息
-- [x] 阅读项目背景: `@docs/technical/xc_os_context.md`
+- [x] 阅读项目背景: `@xc-robot-wiki/technical/xc_os_context.md`
 - [x] 确认当前状态: `@xc_recon_8.md`  
-- [x] 了解技术架构: `@docs/technical/PROJECT_TECHNICAL_OVERVIEW.md`
-- [x] 查看相关文档: `@docs/README.md`
+- [x] 了解技术架构: `@xc-robot-wiki/technical/PROJECT_TECHNICAL_OVERVIEW.md`
+- [x] 查看相关文档: `@xc-robot-wiki/README.md`
 
 ### 常用命令速查
 ```bash
@@ -252,7 +252,7 @@ python -m pytest && python -m mypy .  # 后端
 **🤖 Claude使用提示**: 
 - 在执行任何开发任务前，请先阅读相关文档
 - 修改代码时请保持现有的代码风格和架构模式
-- 如有疑问，优先查阅`@docs/`目录下的相关文档
+- 如有疑问，优先查阅`@xc-robot-wiki/`目录下的相关文档
 - 重大修改前请先与用户确认技术方案
 
 **最后更新**: 2025-07-19 by Kevin Yuan  
