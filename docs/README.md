@@ -144,6 +144,12 @@ UI设计、组件规范和用户体验指南
 @docs/technical/project_overview_legacy.md - 原项目v2.3.2完整技术架构
 @docs/development/robotsim_guide.md - VTK 3D仿真系统实现指南
 @docs/hardware/fr3_stl_dh_analysis.md - FR3 STL模型与DH参数分析
+
+# 5. 根目录核心文档参考 (Root Directory Core Documents)
+@docs/technical/xc_os_system_design.md - XC-OS系统设计规划和架构愿景
+@docs/technical/xc_recon_system_design.md - XC-RECON重构设计方案
+@docs/design/smartinterface_planning_root_version.md - 智能交互模块设计
+@docs/development/claude_code_instructions.md - Claude AI开发协作指令
 ```
 
 #### 📝 文档维护
@@ -213,6 +219,41 @@ UI设计、组件规范和用户体验指南
 |-----------|------|------|
 | [images/](./images/) | **完整图片资源库** | 原项目所有文档配图和截图 |
 | [css/](./css/) | **HTML文档样式** | 支持HTML文档的样式渲染 |
+
+---
+
+## 📋 根目录核心文档 (Root Directory Documents)
+
+**说明**: 以下文档来自原始xc-robot项目根目录，包含项目核心设计、规划和开发指导文档。
+
+### 📁 [technical/] - 项目核心技术文档
+| 文件名 | 描述 | 重要程度 | 用途 |
+|--------|------|----------|------|
+| [xc_os_system_design.md](./technical/xc_os_system_design.md) | **XC-OS系统设计规划** | ⭐⭐⭐⭐⭐ | XC-OS模块化架构和系统设计愿景 |
+| [xc_recon_system_design.md](./technical/xc_recon_system_design.md) | **XC-RECON重构设计方案** | ⭐⭐⭐⭐⭐ | 重构架构设计和技术栈选择 |
+| [xc_os_context_root_version.md](./technical/xc_os_context_root_version.md) | **项目背景根目录版本** | ⭐⭐⭐⭐ | 根目录版本的项目背景对比参考 |
+| [project_review.md](./technical/project_review.md) | **项目评审文档** | ⭐⭐⭐⭐ | 项目阶段评审和改进建议 |
+| [project_context.md](./technical/project_context.md) | **项目上下文** | ⭐⭐⭐ | 项目开发背景和上下文信息 |
+| [xc_recon_v1_notes.md](./technical/xc_recon_v1_notes.md) | **重构V1笔记** | ⭐⭐⭐ | 早期重构思路和记录 |
+
+### 📁 [hardware/] - 硬件系统扩展文档
+| 文件名 | 描述 | 重要程度 | 用途 |
+|--------|------|----------|------|
+| [xc_gemini_system.md](./hardware/xc_gemini_system.md) | **XC Gemini系统文档** | ⭐⭐⭐⭐ | Gemini视觉系统集成方案 |
+
+### 📁 [design/] - 系统设计和规划文档
+| 文件名 | 描述 | 重要程度 | 用途 |
+|--------|------|----------|------|
+| [smartinterface_planning_root_version.md](./design/smartinterface_planning_root_version.md) | **智能交互规划根目录版** | ⭐⭐⭐⭐⭐ | 根目录版本的智能交互设计 |
+| [scenario_planning.md](./design/scenario_planning.md) | **场景规划文档** | ⭐⭐⭐⭐ | 机器人应用场景规划 |
+| [simulation_planning.md](./design/simulation_planning.md) | **仿真规划文档** | ⭐⭐⭐⭐ | 仿真系统设计规划 |
+| [monitor_planning.md](./design/monitor_planning.md) | **监控规划文档** | ⭐⭐⭐ | 系统监控设计规划 |
+
+### 📁 [development/] - 开发工具和指导文档
+| 文件名 | 描述 | 重要程度 | 用途 |
+|--------|------|----------|------|
+| [claude_code_instructions.md](./development/claude_code_instructions.md) | **Claude Code指令文档** | ⭐⭐⭐⭐ | Claude AI开发协作指令 |
+| [claude_ai_guide_legacy.md](./development/claude_ai_guide_legacy.md) | **Claude AI指南遗留版** | ⭐⭐⭐ | 原项目Claude协作指南 |
 
 ---
 
