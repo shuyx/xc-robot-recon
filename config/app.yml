@@ -31,7 +31,7 @@ redis:
 
 # API 配置
 api:
-  cors_origins: ["http://localhost:3000", "http://127.0.0.1:3000"]
+  cors_origins: ["http://localhost:3000", "http://127.0.0.1:3000", "http://localhost:8000", "http://127.0.0.1:8000"]
   docs_url: "/docs"
   redoc_url: "/redoc"
   openapi_url: "/openapi.json"

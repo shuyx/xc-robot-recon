@@ -6,7 +6,7 @@ gunicorn==21.2.0
 # Database
 sqlalchemy==2.0.23
 alembic==1.12.1
-psycopg2-binary==2.9.9
+# psycopg2-binary==2.9.9  # PostgreSQL数据库驱动，暂时使用SQLite
 redis==5.0.1
 
 # Authentication & Security
@@ -26,9 +26,9 @@ requests==2.31.0
 openai==1.3.7
 
 # 3D File Processing
-vtk==9.3.0
-numpy==1.24.4
-matplotlib==3.8.2
+vtk>=9.4.0
+numpy>=1.24.4
+matplotlib>=3.8.2
 
 # Configuration
 pyyaml==6.0.1
