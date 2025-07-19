@@ -1,0 +1,365 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#409EFF",
+        "secondary": "#2c3e50",
+        "success": "#67C23A",
+        "warning": "#E6A23C",
+        "danger": "#F56C6C",
+        "accent": "#00A870"
+      },
+      "width": {
+        "sidebar-expanded": "240px",
+        "sidebar-collapsed": "60px"
+      },
+      "transitionProperty": {
+        "width": "width"
+      },
+      "fontFamily": {
+        "sans": [
+          "Inter",
+          "sans-serif"
+        ]
+      }
+    },
+    "fontFamily": {
+      "sans": [
+        "Inter",
+        "sans-serif"
+      ]
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&amp;display=swap"><style>
+      body {
+        font-family: 'Inter', sans-serif !important;
+      }
+      
+      /* Preserve Font Awesome icons */
+      .fa, .fas, .far, .fal, .fab {
+        font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands" !important;
+      }
+    </style><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-100 font-sans">
+    <div id="app" class="flex h-screen overflow-hidden">
+        <!-- Sidebar Navigation - Expanded State -->
+        <aside id="sidebar-expanded" class="bg-secondary text-white w-sidebar-expanded h-full flex-shrink-0 flex flex-col transition-width duration-300 ease-in-out">
+            <!-- Logo and Toggle Button -->
+            <div class="h-16 flex items-center justify-between px-4 border-b border-gray-700">
+                <div class="flex items-center">
+                    <div class="bg-gray-700 rounded-md p-1.5 mr-2">
+                        <i class="fa-solid fa-robot text-primary"></i>
+                    </div>
+                    <span class="font-bold text-lg">XC-RECON-V2</span>
+                </div>
+                <button id="collapse-btn" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Navigation Menu -->
+            <nav class="flex-grow overflow-y-auto py-4">
+                <div class="space-y-6 px-3">
+                    <!-- Quick Launch Section -->
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-bolt mr-2"></i>
+                            <span>快速启动</span>
+                        </div>
+                        <ul class="space-y-1">
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-700 cursor-pointer">
+                                    <i class="fa-regular fa-star text-gray-400 mr-3"></i>
+                                    <span>收藏功能</span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-700 cursor-pointer">
+                                    <i class="fa-solid fa-clock-rotate-left text-gray-400 mr-3"></i>
+                                    <span>最近使用</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Device Connection Section -->
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-plug mr-2"></i>
+                            <span>设备连接</span>
+                        </div>
+                        <ul class="space-y-1">
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-700 cursor-pointer">
+                                    <i class="fa-solid fa-network-wired text-gray-400 mr-3"></i>
+                                    <span>连接测试</span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-700 cursor-pointer">
+                                    <i class="fa-solid fa-wifi text-gray-400 mr-3"></i>
+                                    <span>网络配置</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Robot Control Section - Active -->
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-white text-sm">
+                            <i class="fa-solid fa-robot mr-2"></i>
+                            <span>机器人控制</span>
+                        </div>
+                        <ul class="space-y-1">
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md bg-primary bg-opacity-20 border-l-4 border-primary cursor-pointer">
+                                    <i class="fa-solid fa-hand text-white mr-3"></i>
+                                    <span>机械臂控制</span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-700 cursor-pointer">
+                                    <i class="fa-solid fa-truck text-gray-400 mr-3"></i>
+                                    <span>底盘控制</span>
+                                </span>
+                            </li>
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-700 cursor-pointer">
+                                    <i class="fa-solid fa-link text-gray-400 mr-3"></i>
+                                    <span>联动控制</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Additional Menu Groups (Placeholders) -->
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-comments mr-2"></i>
+                            <span>通信管理</span>
+                        </div>
+                        <ul class="space-y-1">
+                            <li>
+                                <span class="flex items-center px-3 py-2 text-sm rounded-md hover:bg-gray-700 cursor-pointer">
+                                    <i class="fa-solid fa-satellite-dish text-gray-400 mr-3"></i>
+                                    <span>信号监测</span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-bullseye mr-2"></i>
+                            <span>任务管理</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-eye mr-2"></i>
+                            <span>视觉系统</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-flask mr-2"></i>
+                            <span>实验功能</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-chart-line mr-2"></i>
+                            <span>数据分析</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center px-3 mb-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-gear mr-2"></i>
+                            <span>系统设置</span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Sidebar Navigation - Collapsed State -->
+        <aside id="sidebar-collapsed" class="hidden bg-secondary text-white w-sidebar-collapsed h-full flex-shrink-0 flex flex-col transition-width duration-300 ease-in-out">
+            <!-- Logo and Toggle Button -->
+            <div class="h-16 flex items-center justify-center border-b border-gray-700">
+                <button id="expand-btn" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+            
+            <!-- Navigation Menu - Icons Only -->
+            <nav class="flex-grow overflow-y-auto py-4">
+                <div class="space-y-6 flex flex-col items-center">
+                    <!-- Quick Launch Icon -->
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-bolt"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            快速启动
+                        </div>
+                    </div>
+                    
+                    <!-- Device Connection Icon -->
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-plug"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            设备连接
+                        </div>
+                    </div>
+                    
+                    <!-- Robot Control Icon - Active -->
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-primary bg-gray-700 rounded-md">
+                            <i class="fa-solid fa-robot"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            机器人控制
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Icons -->
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-comments"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            通信管理
+                        </div>
+                    </div>
+                    
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-bullseye"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            任务管理
+                        </div>
+                    </div>
+                    
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            视觉系统
+                        </div>
+                    </div>
+                    
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-flask"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            实验功能
+                        </div>
+                    </div>
+                    
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-chart-line"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            数据分析
+                        </div>
+                    </div>
+                    
+                    <div class="tooltip-container relative">
+                        <button class="w-10 h-10 flex items-center justify-center text-gray-400 hover:text-white rounded-md hover:bg-gray-700">
+                            <i class="fa-solid fa-gear"></i>
+                        </button>
+                        <div class="tooltip opacity-0 invisible absolute left-full ml-2 px-2 py-1 bg-gray-800 text-xs text-white rounded whitespace-nowrap transition-opacity">
+                            系统设置
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+        
+        <!-- Main Content Area (Placeholder) -->
+        <main class="flex-1 overflow-y-auto bg-gray-100">
+            <div class="p-6">
+                <h1 class="text-2xl font-bold text-secondary mb-4">机械臂控制</h1>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <p class="text-gray-600">这里是机械臂控制界面的主要内容区域。</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        // Toggle Sidebar Collapse/Expand
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarExpanded = document.getElementById('sidebar-expanded');
+            const sidebarCollapsed = document.getElementById('sidebar-collapsed');
+            const collapseBtn = document.getElementById('collapse-btn');
+            const expandBtn = document.getElementById('expand-btn');
+            
+            collapseBtn.addEventListener('click', function() {
+                sidebarExpanded.classList.add('hidden');
+                sidebarCollapsed.classList.remove('hidden');
+            });
+            
+            expandBtn.addEventListener('click', function() {
+                sidebarCollapsed.classList.add('hidden');
+                sidebarExpanded.classList.remove('hidden');
+            });
+            
+            // Tooltip functionality for collapsed sidebar
+            const tooltipContainers = document.querySelectorAll('.tooltip-container');
+            
+            tooltipContainers.forEach(container => {
+                const tooltip = container.querySelector('.tooltip');
+                
+                container.addEventListener('mouseenter', () => {
+                    tooltip.classList.remove('opacity-0', 'invisible');
+                    tooltip.classList.add('opacity-100', 'visible');
+                });
+                
+                container.addEventListener('mouseleave', () => {
+                    tooltip.classList.add('opacity-0', 'invisible');
+                    tooltip.classList.remove('opacity-100', 'visible');
+                });
+            });
+        });
+    </script>
+
+</body></html>

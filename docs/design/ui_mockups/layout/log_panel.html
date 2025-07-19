@@ -1,0 +1,549 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#409EFF",
+        "secondary": "#2c3e50",
+        "success": "#67C23A",
+        "warning": "#E6A23C",
+        "danger": "#F56C6C",
+        "green": {
+          "custom": "#00A870"
+        }
+      },
+      "fontFamily": {
+        "sans": [
+          "Inter",
+          "sans-serif"
+        ]
+      }
+    }
+  }
+};</script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif;
+        }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-100">
+    <div id="app" class="flex h-screen overflow-hidden">
+        <!-- Sidebar - Collapsed state (60px) -->
+        <div id="sidebar" class="bg-secondary text-white w-[60px] flex-shrink-0 flex flex-col items-center py-4 hidden md:flex">
+            <div class="mb-8">
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer">
+                    <i class="fa-solid fa-robot text-primary text-xl"></i>
+                </span>
+            </div>
+            <div class="flex flex-col items-center space-y-6 flex-grow">
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg bg-white/10 hover:bg-white/20 cursor-pointer">
+                    <i class="fa-solid fa-home"></i>
+                </span>
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 cursor-pointer">
+                    <i class="fa-solid fa-chart-line"></i>
+                </span>
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 cursor-pointer">
+                    <i class="fa-solid fa-robot"></i>
+                </span>
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 cursor-pointer">
+                    <i class="fa-solid fa-camera"></i>
+                </span>
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 cursor-pointer">
+                    <i class="fa-solid fa-cog"></i>
+                </span>
+            </div>
+            <div class="mt-auto">
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 cursor-pointer">
+                    <i class="fa-solid fa-question-circle"></i>
+                </span>
+                <span class="w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 mt-6 cursor-pointer">
+                    <i class="fa-solid fa-user"></i>
+                </span>
+            </div>
+        </div>
+
+        <!-- Sidebar - Expanded state (240px) - Hidden on mobile -->
+        <div id="sidebar-expanded" class="bg-secondary text-white w-[240px] hidden lg:flex flex-col">
+            <div class="p-4 flex items-center">
+                <i class="fa-solid fa-robot text-primary text-xl mr-3"></i>
+                <span class="font-semibold text-lg">XC-OS System</span>
+            </div>
+            <div class="px-4 py-6 flex-grow">
+                <div class="space-y-2">
+                    <p class="text-xs text-gray-400 uppercase font-semibold mb-2">主导航</p>
+                    <span class="flex items-center py-2 px-3 rounded-lg bg-white/10 text-white cursor-pointer">
+                        <i class="fa-solid fa-home w-5 mr-3"></i>
+                        <span>仪表盘</span>
+                    </span>
+                    <span class="flex items-center py-2 px-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fa-solid fa-chart-line w-5 mr-3"></i>
+                        <span>数据监控</span>
+                    </span>
+                    <span class="flex items-center py-2 px-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fa-solid fa-robot w-5 mr-3"></i>
+                        <span>机器人控制</span>
+                    </span>
+                    <span class="flex items-center py-2 px-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fa-solid fa-camera w-5 mr-3"></i>
+                        <span>视觉系统</span>
+                    </span>
+                </div>
+                
+                <div class="mt-8">
+                    <p class="text-xs text-gray-400 uppercase font-semibold mb-2">系统</p>
+                    <span class="flex items-center py-2 px-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fa-solid fa-cog w-5 mr-3"></i>
+                        <span>系统设置</span>
+                    </span>
+                    <span class="flex items-center py-2 px-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fa-solid fa-user-shield w-5 mr-3"></i>
+                        <span>权限管理</span>
+                    </span>
+                    <span class="flex items-center py-2 px-3 rounded-lg text-gray-300 hover:bg-white/10 hover:text-white cursor-pointer">
+                        <i class="fa-solid fa-file-alt w-5 mr-3"></i>
+                        <span>系统日志</span>
+                    </span>
+                </div>
+            </div>
+            <div class="p-4 border-t border-gray-700">
+                <div class="flex items-center">
+                    <div class="w-8 h-8 rounded-full bg-gray-600 flex items-center justify-center mr-3">
+                        <span class="text-white text-xs">XC</span>
+                    </div>
+                    <div>
+                        <div class="text-sm font-medium">管理员</div>
+                        <div class="text-xs text-gray-400">admin@xc-os.com</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div id="main-content" class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <div id="header" class="bg-white border-b border-gray-200 py-3 px-4 flex items-center justify-between">
+                <div class="flex items-center">
+                    <button class="mr-4 md:hidden">
+                        <i class="fa-solid fa-bars text-gray-500"></i>
+                    </button>
+                    <h1 class="text-lg font-medium text-gray-800">机器人控制中心</h1>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button class="text-gray-500 hover:text-gray-700">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                    <button class="text-gray-500 hover:text-gray-700 relative">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-danger rounded-full"></span>
+                    </button>
+                    <button id="log-toggle-btn" class="text-gray-500 hover:text-gray-700">
+                        <i class="fa-solid fa-list-ul"></i>
+                    </button>
+                    <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                        <span class="text-gray-700 text-xs">XC</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="flex-1 overflow-auto bg-gray-100 flex">
+                <!-- Main Dashboard Content -->
+                <div id="dashboard" class="flex-1 p-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+                        <div id="status-card" class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="font-semibold text-gray-700">系统状态</h2>
+                                <span class="px-2 py-1 bg-success text-white text-xs rounded-full">运行中</span>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-success mr-2"></div>
+                                    <span class="text-sm text-gray-600">FR3右臂: 正常 (5ms)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-danger mr-2"></div>
+                                    <span class="text-sm text-gray-600">FR3左臂: 异常 (timeout)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-success mr-2"></div>
+                                    <span class="text-sm text-gray-600">底盘: 正常 (8ms)</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-warning mr-2"></div>
+                                    <span class="text-sm text-gray-600">相机2: 警告 (连接不稳定)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="task-card" class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="font-semibold text-gray-700">当前任务</h2>
+                                <button class="text-primary hover:text-primary/80">
+                                    <i class="fa-solid fa-ellipsis-v"></i>
+                                </button>
+                            </div>
+                            <div class="space-y-3">
+                                <p class="text-sm text-gray-600">双臂协调抓取</p>
+                                <div>
+                                    <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                        <span>进度</span>
+                                        <span>80%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+                                    </div>
+                                </div>
+                                <p class="text-xs text-gray-500">预计剩余: 2分钟</p>
+                                <div class="flex space-x-2 mt-2">
+                                    <button class="px-3 py-1 bg-danger text-white text-xs rounded hover:bg-danger/90">
+                                        停止
+                                    </button>
+                                    <button class="px-3 py-1 bg-warning text-white text-xs rounded hover:bg-warning/90">
+                                        暂停
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="stats-card" class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="font-semibold text-gray-700">运行统计</h2>
+                                <span class="text-xs text-gray-500">今日</span>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center">
+                                    <p class="text-2xl font-semibold text-primary">24</p>
+                                    <p class="text-xs text-gray-500">完成任务</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-2xl font-semibold text-green-custom">98%</p>
+                                    <p class="text-xs text-gray-500">成功率</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-2xl font-semibold text-secondary">5.2h</p>
+                                    <p class="text-xs text-gray-500">运行时间</p>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-2xl font-semibold text-warning">2</p>
+                                    <p class="text-xs text-gray-500">警告次数</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                        <div id="robot-control" class="bg-white rounded-lg shadow p-4 lg:col-span-2">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="font-semibold text-gray-700">机器人控制</h2>
+                                <div class="flex space-x-2">
+                                    <button class="px-3 py-1 bg-primary text-white text-xs rounded hover:bg-primary/90">
+                                        自动模式
+                                    </button>
+                                    <button class="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300">
+                                        手动模式
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="flex-1 mb-4 md:mb-0 md:mr-4">
+                                    <div class="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
+                                        <i class="fa-solid fa-robot text-5xl text-gray-300"></i>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="space-y-4">
+                                        <div>
+                                            <label class="block text-xs text-gray-500 mb-1">右臂位置</label>
+                                            <div class="flex space-x-2">
+                                                <input type="text" value="X: 0.45" class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm" readonly="">
+                                                <input type="text" value="Y: 0.32" class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm" readonly="">
+                                                <input type="text" value="Z: 0.15" class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm" readonly="">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-gray-500 mb-1">左臂位置</label>
+                                            <div class="flex space-x-2">
+                                                <input type="text" value="X: --" class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm bg-gray-100" readonly="">
+                                                <input type="text" value="Y: --" class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm bg-gray-100" readonly="">
+                                                <input type="text" value="Z: --" class="flex-1 px-3 py-1 border border-gray-300 rounded text-sm bg-gray-100" readonly="">
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-gray-500 mb-1">速度控制</label>
+                                            <input type="range" class="w-full" min="0" max="100" value="50">
+                                            <div class="flex justify-between text-xs text-gray-500">
+                                                <span>慢速</span>
+                                                <span>中速</span>
+                                                <span>快速</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="tasks-list" class="bg-white rounded-lg shadow p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="font-semibold text-gray-700">任务队列</h2>
+                                <button class="text-primary hover:text-primary/80 text-sm">查看全部</button>
+                            </div>
+                            <div class="space-y-3">
+                                <div class="p-2 border-l-4 border-success bg-success/10 rounded">
+                                    <p class="text-sm font-medium">双臂协调抓取</p>
+                                    <p class="text-xs text-gray-500">执行中 - 80%</p>
+                                </div>
+                                <div class="p-2 border-l-4 border-gray-300 bg-gray-50 rounded">
+                                    <p class="text-sm font-medium">物体分类</p>
+                                    <p class="text-xs text-gray-500">队列中 #2</p>
+                                </div>
+                                <div class="p-2 border-l-4 border-gray-300 bg-gray-50 rounded">
+                                    <p class="text-sm font-medium">自动装配</p>
+                                    <p class="text-xs text-gray-500">队列中 #3</p>
+                                </div>
+                                <div class="p-2 border-l-4 border-gray-300 bg-gray-50 rounded">
+                                    <p class="text-sm font-medium">回到起始位置</p>
+                                    <p class="text-xs text-gray-500">队列中 #4</p>
+                                </div>
+                                <button class="w-full mt-2 px-3 py-2 bg-gray-100 text-gray-600 text-sm rounded hover:bg-gray-200 flex items-center justify-center">
+                                    <i class="fa-solid fa-plus mr-2"></i>
+                                    添加任务
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="camera-feed" class="bg-white rounded-lg shadow p-4 mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="font-semibold text-gray-700">相机视图</h2>
+                            <div class="flex space-x-2">
+                                <button class="px-3 py-1 bg-primary text-white text-xs rounded hover:bg-primary/90">
+                                    相机 1
+                                </button>
+                                <button class="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300">
+                                    相机 2
+                                </button>
+                                <button class="px-3 py-1 bg-gray-200 text-gray-700 text-xs rounded hover:bg-gray-300">
+                                    相机 3
+                                </button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="aspect-video bg-gray-800 rounded-lg flex items-center justify-center">
+                                <i class="fa-solid fa-camera text-5xl text-gray-600"></i>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="mb-4">
+                                    <h3 class="text-sm font-medium text-gray-700 mb-2">相机参数</h3>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block text-xs text-gray-500 mb-1">曝光</label>
+                                            <input type="range" class="w-full" min="0" max="100" value="70">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-gray-500 mb-1">对比度</label>
+                                            <input type="range" class="w-full" min="0" max="100" value="50">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-gray-500 mb-1">亮度</label>
+                                            <input type="range" class="w-full" min="0" max="100" value="60">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs text-gray-500 mb-1">饱和度</label>
+                                            <input type="range" class="w-full" min="0" max="100" value="45">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-medium text-gray-700 mb-2">视觉识别</h3>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <button class="px-3 py-2 bg-gray-100 text-gray-600 text-sm rounded hover:bg-gray-200">
+                                            物体检测
+                                        </button>
+                                        <button class="px-3 py-2 bg-gray-100 text-gray-600 text-sm rounded hover:bg-gray-200">
+                                            边缘检测
+                                        </button>
+                                        <button class="px-3 py-2 bg-gray-100 text-gray-600 text-sm rounded hover:bg-gray-200">
+                                            颜色分析
+                                        </button>
+                                        <button class="px-3 py-2 bg-gray-100 text-gray-600 text-sm rounded hover:bg-gray-200">
+                                            条码识别
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Log Panel - Right Side -->
+                <div id="log-panel" class="w-[320px] bg-white border-l border-gray-200 flex flex-col overflow-hidden">
+                    <div class="p-4 border-b border-gray-200 flex items-center justify-between">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-clipboard-list text-primary mr-2"></i>
+                            <h2 class="font-semibold text-gray-700">系统日志</h2>
+                        </div>
+                        <button id="close-log-btn" class="text-gray-400 hover:text-gray-600">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="flex border-b border-gray-200">
+                        <button class="flex-1 py-2 text-sm font-medium text-primary border-b-2 border-primary">
+                            <i class="fa-solid fa-sync-alt mr-1"></i>
+                            实时日志
+                        </button>
+                        <button class="flex-1 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                            <i class="fa-solid fa-exclamation-triangle mr-1"></i>
+                            错误
+                        </button>
+                        <button class="flex-1 py-2 text-sm font-medium text-gray-500 hover:text-gray-700">
+                            <i class="fa-solid fa-chart-pie mr-1"></i>
+                            状态
+                        </button>
+                    </div>
+                    
+                    <div class="flex-1 overflow-y-auto">
+                        <div class="p-4 space-y-2 text-sm">
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:35:12]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">机械臂初始化完成</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:35:10]</span>
+                                <span class="text-warning font-medium mr-2">WARN</span>
+                                <span class="text-gray-700">相机2连接超时</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:35:08]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">底盘导航就绪</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:35:05]</span>
+                                <span class="text-danger font-medium mr-2">ERROR</span>
+                                <span class="text-gray-700">左臂通信异常</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:34:58]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">系统启动</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:34:55]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">加载配置文件成功</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:34:52]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">连接数据库成功</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:34:50]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">初始化网络连接</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:34:48]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">启动服务</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 mr-2">[14:34:45]</span>
+                                <span class="text-green-custom font-medium mr-2">INFO</span>
+                                <span class="text-gray-700">检测硬件设备</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 p-4">
+                        <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fa-solid fa-exclamation-circle text-warning mr-2"></i>
+                            设备状态监控
+                        </h3>
+                        <div class="space-y-2">
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-success mr-2"></div>
+                                <span class="text-sm text-gray-700">FR3右臂: 正常 (5ms)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-danger mr-2"></div>
+                                <span class="text-sm text-gray-700">FR3左臂: 异常 (timeout)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-success mr-2"></div>
+                                <span class="text-sm text-gray-700">底盘: 正常 (8ms)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-2 h-2 rounded-full bg-warning mr-2"></div>
+                                <span class="text-sm text-gray-700">相机2: 警告 (连接不稳定)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-gray-200 p-4">
+                        <h3 class="font-medium text-gray-700 mb-2 flex items-center">
+                            <i class="fa-solid fa-bullseye text-primary mr-2"></i>
+                            当前任务: 双臂协调抓取
+                        </h3>
+                        <div class="space-y-2">
+                            <div>
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>进度</span>
+                                    <span>80%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-500">预计剩余: 2分钟</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle log panel
+        const logPanel = document.getElementById('log-panel');
+        const logToggleBtn = document.getElementById('log-toggle-btn');
+        const closeLogBtn = document.getElementById('close-log-btn');
+        
+        closeLogBtn.addEventListener('click', () => {
+            logPanel.classList.add('hidden');
+        });
+        
+        logToggleBtn.addEventListener('click', () => {
+            logPanel.classList.toggle('hidden');
+        });
+    </script>
+
+</body></html>

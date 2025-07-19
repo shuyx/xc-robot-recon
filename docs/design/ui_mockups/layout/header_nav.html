@@ -1,0 +1,318 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "colors": {
+        "primary": "#409EFF",
+        "secondary": "#2c3e50",
+        "success": "#67C23A",
+        "warning": "#E6A23C",
+        "danger": "#F56C6C",
+        "green": "#00A870"
+      },
+      "screens": {
+        "mobile": {
+          "max": "767px"
+        },
+        "tablet": {
+          "min": "768px",
+          "max": "1199px"
+        },
+        "desktop": {
+          "min": "1200px"
+        }
+      },
+      "fontFamily": {
+        "sans": [
+          "Inter",
+          "sans-serif"
+        ]
+      }
+    }
+  }
+};</script>
+    
+    <style>
+        body { font-family: 'Inter', sans-serif;
+        }
+        
+        @media (max-width: 767px) {
+            .content-area {
+                width: calc(100vw - 60px);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .content-area {
+                width: calc(100vw - 240px);
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .content-area {
+                width: calc(100vw - 240px - 320px);
+            }
+        }
+        
+        .sidebar-collapsed .content-area {
+            width: calc(100vw - 60px);
+        }
+        
+        .log-panel-open .content-area {
+            width: calc(100vw - 240px - 320px);
+        }
+        
+        .sidebar-collapsed.log-panel-open .content-area {
+            width: calc(100vw - 60px - 320px);
+        }
+        
+        @media (max-width: 767px) {
+            .log-panel-open .content-area {
+                width: calc(100vw - 60px - 320px);
+            }
+        }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-100">
+    <!-- Header Navigation -->
+    <header id="header" class="fixed top-0 left-0 right-0 h-[60px] bg-white border-b border-gray-200 shadow-sm z-50">
+        <div class="flex items-center justify-between h-full px-4">
+            <!-- Left side: Breadcrumb -->
+            <div class="flex items-center">
+                <button id="toggle-sidebar" class="mr-4 text-gray-500 hover:text-primary focus:outline-none">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <nav class="flex items-center text-sm">
+                    <span class="text-primary hover:text-primary-dark cursor-pointer">首页</span>
+                    <i class="fa-solid fa-angle-right mx-2 text-gray-400 text-xs"></i>
+                    <span class="text-gray-600 hover:text-primary cursor-pointer">机器人控制</span>
+                    <i class="fa-solid fa-angle-right mx-2 text-gray-400 text-xs"></i>
+                    <span class="text-gray-800 font-medium">机械臂控制</span>
+                </nav>
+            </div>
+            
+            <!-- Right side: Global Actions -->
+            <div class="flex items-center space-x-4">
+                <!-- Log Button -->
+                <button id="toggle-log" class="relative p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-full focus:outline-none">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-warning rounded-full"></span>
+                </button>
+                
+                <!-- Notifications Button -->
+                <button class="relative p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-full focus:outline-none">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="absolute top-1 right-1 w-2 h-2 bg-danger rounded-full"></span>
+                </button>
+                
+                <!-- User Profile -->
+                <div class="relative group">
+                    <button class="flex items-center focus:outline-none">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="User Avatar" class="w-8 h-8 rounded-full object-cover">
+                        <span class="ml-2 text-sm font-medium text-gray-700 mobile:hidden">管理员</span>
+                        <i class="fa-solid fa-chevron-down ml-1 text-xs text-gray-500 mobile:hidden"></i>
+                    </button>
+                    <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200 hidden group-hover:block">
+                        <span class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                            <i class="fa-solid fa-user mr-2 text-gray-500"></i>个人资料
+                        </span>
+                        <span class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                            <i class="fa-solid fa-gear mr-2 text-gray-500"></i>账户设置
+                        </span>
+                        <div class="border-t border-gray-100 my-1"></div>
+                        <span class="block px-4 py-2 text-sm text-danger hover:bg-gray-100 cursor-pointer">
+                            <i class="fa-solid fa-right-from-bracket mr-2"></i>退出登录
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Settings Button -->
+                <button class="p-2 text-gray-600 hover:text-primary hover:bg-gray-100 rounded-full focus:outline-none">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar Placeholder (for visualization) -->
+    <aside id="sidebar" class="fixed left-0 top-[60px] bottom-0 w-[240px] bg-secondary text-white transition-all duration-300 z-40">
+        <div class="p-4">
+            <div class="text-lg font-bold mb-6">XC-OS System</div>
+            <nav class="space-y-1">
+                <span class="flex items-center px-4 py-2 rounded hover:bg-opacity-20 hover:bg-white cursor-pointer">
+                    <i class="fa-solid fa-house mr-3"></i>
+                    <span>控制台</span>
+                </span>
+                <span class="flex items-center px-4 py-2 rounded bg-primary bg-opacity-20 cursor-pointer">
+                    <i class="fa-solid fa-robot mr-3"></i>
+                    <span>机器人控制</span>
+                </span>
+                <span class="flex items-center px-4 py-2 rounded hover:bg-opacity-20 hover:bg-white cursor-pointer">
+                    <i class="fa-solid fa-chart-line mr-3"></i>
+                    <span>数据分析</span>
+                </span>
+                <span class="flex items-center px-4 py-2 rounded hover:bg-opacity-20 hover:bg-white cursor-pointer">
+                    <i class="fa-solid fa-cog mr-3"></i>
+                    <span>系统设置</span>
+                </span>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Log Panel (Right Side) -->
+    <aside id="log-panel" class="fixed right-0 top-[60px] bottom-0 w-[320px] bg-white border-l border-gray-200 transform translate-x-full transition-transform duration-300 z-40 overflow-auto">
+        <div class="p-4">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-medium text-gray-800">系统日志</h2>
+                <button id="close-log" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                    <i class="fa-solid fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-3">
+                <!-- Log Entry -->
+                <div class="p-3 bg-gray-50 rounded-md border-l-4 border-primary">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-500">2023-07-19 15:30:22</span>
+                        <span class="text-xs px-2 py-0.5 bg-primary text-white rounded-full">信息</span>
+                    </div>
+                    <p class="text-sm mt-1">机械臂控制系统启动完成</p>
+                </div>
+                
+                <!-- Log Entry -->
+                <div class="p-3 bg-gray-50 rounded-md border-l-4 border-warning">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-500">2023-07-19 15:28:45</span>
+                        <span class="text-xs px-2 py-0.5 bg-warning text-white rounded-full">警告</span>
+                    </div>
+                    <p class="text-sm mt-1">传感器数据异常，请检查连接</p>
+                </div>
+                
+                <!-- Log Entry -->
+                <div class="p-3 bg-gray-50 rounded-md border-l-4 border-success">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-500">2023-07-19 15:25:12</span>
+                        <span class="text-xs px-2 py-0.5 bg-success text-white rounded-full">成功</span>
+                    </div>
+                    <p class="text-sm mt-1">任务执行成功：零件装配完成</p>
+                </div>
+                
+                <!-- Log Entry -->
+                <div class="p-3 bg-gray-50 rounded-md border-l-4 border-danger">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-500">2023-07-19 15:18:33</span>
+                        <span class="text-xs px-2 py-0.5 bg-danger text-white rounded-full">错误</span>
+                    </div>
+                    <p class="text-sm mt-1">机械臂运动范围超出安全限制，已紧急停止</p>
+                </div>
+                
+                <!-- More Log Entries -->
+                <div class="p-3 bg-gray-50 rounded-md border-l-4 border-primary">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-500">2023-07-19 15:10:05</span>
+                        <span class="text-xs px-2 py-0.5 bg-primary text-white rounded-full">信息</span>
+                    </div>
+                    <p class="text-sm mt-1">系统参数更新：速度控制优化</p>
+                </div>
+                
+                <div class="p-3 bg-gray-50 rounded-md border-l-4 border-success">
+                    <div class="flex justify-between">
+                        <span class="text-xs text-gray-500">2023-07-19 14:55:18</span>
+                        <span class="text-xs px-2 py-0.5 bg-success text-white rounded-full">成功</span>
+                    </div>
+                    <p class="text-sm mt-1">用户admin登录系统</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Area (placeholder) -->
+    <main id="main-content" class="content-area pt-[60px] ml-[240px] transition-all duration-300 p-6">
+        <div class="bg-white rounded-md shadow-sm p-6 mb-6">
+            <h1 class="text-xl font-medium text-gray-800 mb-4">机械臂控制面板</h1>
+            <p class="text-gray-600">这里是机械臂控制的主要内容区域，根据设计约束自适应不同设备宽度。</p>
+        </div>
+    </main>
+
+    <script>
+        // Toggle sidebar
+        document.getElementById('toggle-sidebar').addEventListener('click', function() {
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            
+            if (sidebar.classList.contains('w-[240px]')) {
+                sidebar.classList.remove('w-[240px]');
+                sidebar.classList.add('w-[60px]');
+                document.body.classList.add('sidebar-collapsed');
+            } else {
+                sidebar.classList.remove('w-[60px]');
+                sidebar.classList.add('w-[240px]');
+                document.body.classList.remove('sidebar-collapsed');
+            }
+        });
+        
+        // Toggle log panel
+        document.getElementById('toggle-log').addEventListener('click', function() {
+            const logPanel = document.getElementById('log-panel');
+            
+            if (logPanel.classList.contains('translate-x-full')) {
+                logPanel.classList.remove('translate-x-full');
+                document.body.classList.add('log-panel-open');
+            } else {
+                logPanel.classList.add('translate-x-full');
+                document.body.classList.remove('log-panel-open');
+            }
+        });
+        
+        // Close log panel
+        document.getElementById('close-log').addEventListener('click', function() {
+            const logPanel = document.getElementById('log-panel');
+            logPanel.classList.add('translate-x-full');
+            document.body.classList.remove('log-panel-open');
+        });
+        
+        // Responsive adjustments for mobile
+        function adjustForMobile() {
+            const sidebar = document.getElementById('sidebar');
+            
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove('w-[240px]');
+                sidebar.classList.add('w-[60px]');
+                document.body.classList.add('sidebar-collapsed');
+            } else if (window.innerWidth >= 768 && document.body.classList.contains('sidebar-collapsed') && !window.manualCollapse) {
+                sidebar.classList.remove('w-[60px]');
+                sidebar.classList.add('w-[240px]');
+                document.body.classList.remove('sidebar-collapsed');
+            }
+        }
+        
+        // Initial call and event listener for resize
+        adjustForMobile();
+        window.addEventListener('resize', adjustForMobile);
+    </script>
+
+</body></html>
