@@ -24,7 +24,8 @@
       "Bash(find:*)",
       "Bash(git rm:*)",
       "Bash(git commit:*)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "mcp__zen__thinkdeep"
     ],
     "deny": []
   }
