@@ -139,6 +139,11 @@ UI设计、组件规范和用户体验指南
 @docs/hardware/fr3_sdk/ - FR3机械臂Python SDK完整API参考
 @docs/hardware/hermes_api/ - Hermes底盘RESTful API和开发手册
 @docs/hardware/gemini335/ - Gemini335视觉系统完整技术文档
+
+# 4. 原项目遗留文档参考 (Legacy Documents)
+@docs/technical/project_overview_legacy.md - 原项目v2.3.2完整技术架构
+@docs/development/robotsim_guide.md - VTK 3D仿真系统实现指南
+@docs/hardware/fr3_stl_dh_analysis.md - FR3 STL模型与DH参数分析
 ```
 
 #### 📝 文档维护
@@ -168,6 +173,46 @@ UI设计、组件规范和用户体验指南
 2. **技术参考**: 硬件接口、协议规范、算法实现
 3. **设计指导**: UI/UX设计原则和实现方案
 4. **质量标准**: 测试规范和安全要求
+
+---
+
+## 📚 原项目遗留文档 (Legacy Documents)
+
+**说明**: 以下文档来自原始xc-robot项目的Md_files文件夹，提供原项目的完整技术背景和实现经验。
+
+### 📁 [technical/] - 原项目技术文档
+| 文件名 | 格式 | 描述 | 重要程度 | 用途 |
+|--------|------|------|----------|------|
+| [project_overview_legacy.md](./technical/project_overview_legacy.md) | MD/HTML | **原项目技术全览** | ⭐⭐⭐⭐⭐ | 完整的v2.3.2技术架构和实现细节 |
+| [original_project_readme.md](./technical/original_project_readme.md) | MD/HTML | **原项目README** | ⭐⭐⭐⭐ | 项目基础信息和代码结构 |
+| [web_gui_legacy.md](./technical/web_gui_legacy.md) | MD/HTML | **Web GUI遗留说明** | ⭐⭐⭐ | 早期Web GUI设计思路 |
+| [web_gui_v2_tech_spec.md](./technical/web_gui_v2_tech_spec.md) | MD/HTML | **Web GUI 2.0技术规范** | ⭐⭐⭐⭐ | Web GUI详细技术说明 |
+| [gui_description_legacy.html](./technical/gui_description_legacy.html) | HTML | **GUI界面功能说明** | ⭐⭐⭐⭐ | PyQt5界面详细功能描述 |
+
+### 📁 [hardware/] - 硬件遗留文档  
+| 文件名 | 格式 | 描述 | 重要程度 | 用途 |
+|--------|------|------|----------|------|
+| [fr3_robot_analysis_legacy.html](./hardware/fr3_robot_analysis_legacy.html) | HTML | **FR3机械臂分析遗留版** | ⭐⭐⭐⭐⭐ | 原项目FR3运动学分析对比参考 |
+| [fr3_stl_dh_analysis.md](./hardware/fr3_stl_dh_analysis.md) | MD/HTML | **FR3 STL模型DH分析** | ⭐⭐⭐⭐ | 3D模型与DH参数对应关系 |
+
+### 📁 [development/] - 开发遗留文档
+| 文件名 | 格式 | 描述 | 重要程度 | 用途 |
+|--------|------|------|----------|------|
+| [deployment_guide_legacy.html](./development/deployment_guide_legacy.html) | HTML | **部署指南遗留版** | ⭐⭐⭐⭐ | 原项目完整部署指南对比参考 |
+| [robotsim_guide.md](./development/robotsim_guide.md) | MD/HTML | **机器人仿真指南** | ⭐⭐⭐⭐ | VTK 3D仿真系统实现指南 |
+| [stl_naming_guide.md](./development/stl_naming_guide.md) | MD/HTML | **STL模型命名指南** | ⭐⭐⭐ | 3D模型文件命名规范 |
+
+### 📁 [testing/] - 测试遗留文档
+| 文件名 | 格式 | 描述 | 重要程度 | 用途 |
+|--------|------|------|----------|------|
+| [robot_testing_plan_legacy.html](./testing/robot_testing_plan_legacy.html) | HTML | **机器人测试计划遗留版** | ⭐⭐⭐⭐ | 原项目测试策略对比参考 |
+| [development_log_legacy.md](./testing/development_log_legacy.md) | MD | **开发日志遗留版** | ⭐⭐⭐ | 原项目开发过程记录 |
+
+### 📁 Supporting Files
+| 文件/目录 | 描述 | 用途 |
+|-----------|------|------|
+| [images/](./images/) | **完整图片资源库** | 原项目所有文档配图和截图 |
+| [css/](./css/) | **HTML文档样式** | 支持HTML文档的样式渲染 |
 
 ---
 
