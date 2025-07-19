@@ -1,19 +1,36 @@
-# XC-RECON v2.0 UI集成技术方案
+# XC-RECON v2.0 UI开发技术方案
 
-**方案A：QWebEngineView集成完整技术指南**
+**基于Vue 3 + TypeScript的现代Web应用架构**
 
 ---
 
 ## 📋 项目概述
 
-基于深度分析和技术选型，XC-RECON v2.0采用**方案A：QWebEngineView集成**作为UI实现策略。本文档详细说明如何将用户设计的HTML格式UI完全融合进功能页面。
+基于最新技术架构分析，XC-RECON v2.0采用**Vue 3 + TypeScript + Element Plus**作为前端技术栈。本文档详细说明UI开发策略和实施计划。
 
 ### 核心架构
 ```
-FastAPI后端 ← WebSocket/REST → Vue3前端 ← QWebChannel → PyQt5桌面壳
-                                      ↓
-                               QWebEngineView(HTML UI渲染)
+Vue 3前端 ← HTTP/WebSocket → FastAPI后端 ← SDK → 硬件设备
+    ↓              ↓                ↓
+Element Plus    Pinia状态管理    实时数据处理
+TypeScript      Vue Router       设备控制API
 ```
+
+## 🎯 UI开发优先策略
+
+### **两阶段开发模式**
+
+#### **阶段1: UI完整开发 (优先)**
+- **目标**: 基于原菜单结构，完成所有前端页面开发
+- **数据**: 使用Mock数据驱动UI完整运行
+- **优势**: 前端可独立开发，不依赖后端硬件对接
+- **时间**: 1-2周完成完整UI框架
+
+#### **阶段2: 业务功能对接 (后续)**  
+- **目标**: 将UI控件与实际硬件功能完整对接
+- **API集成**: 前端控件 ↔ FastAPI ↔ 硬件SDK ↔ 设备
+- **示例**: 前端FR3状态显示 ← 实时数据 ← FR3 Python SDK ← 机械臂(192.168.58.2)
+- **优势**: UI框架稳定后，专注业务逻辑实现
 
 ---
 

@@ -76,19 +76,58 @@
 - 进度条: primary-500背景，45%宽度
 - 终止按钮: red-50背景，red-700文字，red-200边框
 
-## 颜色方案
-⚠️ **注意**: 颜色方案需要使用项目现有配色，以下仅为HTML参考中的配色结构，实际开发时使用软件自身的配色系统。
+## 颜色方案映射指南
 
+⚠️ **重要**: 严格使用HTML设计中的具体颜色值，但需要映射到项目现有配色系统
+
+### Element Plus主题变量
+```scss
+// 基于项目现有配色系统的Element Plus主题定制
+$--color-primary: #409EFF;           // Element Plus蓝色主题
+$--color-success: #67C23A;           // 成功色（绿色）
+$--color-warning: #E6A23C;           // 警告色（橙色）
+$--color-danger: #F56C6C;            // 危险色（红色）
+$--color-info: #909399;              // 信息色（灰色）
+
+// 项目特定配色
+$--color-brand-primary: #2c3e50;     // 深蓝灰（项目主色）
+$--color-brand-accent: #00A870;      // 绿色（项目强调色）
+```
+
+### CSS变量定义
 ```css
-/* HTML参考配色结构 - 请映射到项目现有配色 */
---color-background-primary: /* 主背景色 - 对应neutral-50 */
---color-background-secondary: /* 次背景色 - 对应white */
---color-border-light: /* 浅边框 - 对应neutral-200 */
---color-text-primary: /* 主文字 - 对应neutral-900 */
---color-text-secondary: /* 次文字 - 对应neutral-600 */
---color-button-primary: /* 主按钮 - 对应neutral-900 */
---color-button-hover: /* 按钮悬停 - 对应neutral-800 */
---color-status-inactive: /* 状态指示 - 对应neutral-500 */
+:root {
+  /* 映射HTML设计配色到项目配色系统 */
+  --xc-bg-primary: #f8f8f8;         /* 主背景 */
+  --xc-bg-secondary: #ffffff;       /* 次背景 */
+  --xc-bg-tertiary: #f2f2f2;       /* 第三背景 */
+  
+  --xc-text-primary: #2c3e50;       /* 主文字色 */
+  --xc-text-secondary: rgba(60,60,60,0.66); /* 次文字色 */
+  
+  --xc-border-light: #e5e7eb;       /* 浅边框 */
+  --xc-border-medium: #d1d5db;      /* 中等边框 */
+  
+  --xc-primary: #409EFF;            /* Element Plus主色 */
+  --xc-accent: #00A870;             /* 项目强调色 */
+  --xc-brand: #2c3e50;              /* 品牌色 */
+}
+```
+
+### 使用方式
+```vue
+<style scoped>
+.custom-button {
+  background-color: var(--xc-primary);
+  color: var(--xc-bg-secondary);
+  border: 1px solid var(--xc-border-light);
+}
+
+.status-active {
+  background-color: var(--xc-accent);
+  color: white;
+}
+</style>
 ```
 
 ## 字体规格
@@ -109,9 +148,40 @@
 - 状态变化: 平滑过渡
 - 滚动条: 隐藏样式 (::-webkit-scrollbar { display: none; })
 
-## PyQt5实现要点
-1. 使用QWebEngineView加载HTML内容
-2. 通过QWebChannel实现Python与JavaScript通信
-3. 相机画面使用QLabel或集成opencv显示
-4. 按钮点击通过JavaScript调用Python方法
-5. 实时状态更新通过信号槽机制
+## Vue 3 + Element Plus实现要点
+
+### 技术栈映射
+1. **布局系统**: Element Plus Layout组件 (el-container, el-aside, el-main)
+2. **样式实现**: TailwindCSS工具类 + Element Plus组件样式
+3. **状态管理**: Pinia Store管理应用状态
+4. **路由导航**: Vue Router实现页面导航
+5. **API通信**: Axios HTTP客户端 + WebSocket实时通信
+
+### 核心组件实现
+```vue
+<!-- 示例：侧边栏导航组件 -->
+<template>
+  <el-aside width="64px" class="sidebar-container">
+    <div class="nav-items">
+      <el-avatar :size="40" class="logo" :src="robotLogo" />
+      <nav-item 
+        v-for="item in navItems" 
+        :key="item.id"
+        :icon="item.icon"
+        :active="activeRoute === item.route"
+        @click="navigateTo(item.route)"
+      />
+    </div>
+  </el-aside>
+</template>
+```
+
+### 响应式设计
+- **断点系统**: Element Plus响应式工具 (xs, sm, md, lg, xl)
+- **网格布局**: el-row + el-col响应式网格
+- **移动端适配**: 侧边栏折叠、触摸优化交互
+
+### 实时数据更新
+- **WebSocket连接**: Socket.io客户端实现实时通信
+- **状态同步**: Pinia响应式状态管理
+- **组件通信**: Event Bus + Props/Emit模式

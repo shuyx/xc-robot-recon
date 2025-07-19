@@ -8,71 +8,33 @@
     router
     @select="handleMenuClick"
   >
-    <el-menu-item index="/dashboard">
-      <el-icon><Monitor /></el-icon>
-      <span>控制台</span>
-    </el-menu-item>
-    
-    <el-sub-menu index="devices">
-      <template #title>
-        <el-icon><Connection /></el-icon>
-        <span>设备管理</span>
-      </template>
-      <el-menu-item index="/devices">设备列表</el-menu-item>
-      <el-menu-item index="/devices/fr3">FR3机械臂</el-menu-item>
-      <el-menu-item index="/devices/hermes">Hermes底盘</el-menu-item>
-    </el-sub-menu>
-    
-    <el-sub-menu index="tasks">
-      <template #title>
-        <el-icon><List /></el-icon>
-        <span>任务管理</span>
-      </template>
-      <el-menu-item index="/tasks">任务列表</el-menu-item>
-      <el-menu-item index="/tasks/create">创建任务</el-menu-item>
-      <el-menu-item index="/tasks/schedule">任务调度</el-menu-item>
-    </el-sub-menu>
-    
-    <el-menu-item index="/simulation">
-      <el-icon><View /></el-icon>
-      <span>3D仿真</span>
-    </el-menu-item>
-    
-    <el-sub-menu index="models">
-      <template #title>
-        <el-icon><Box /></el-icon>
-        <span>模型管理</span>
-      </template>
-      <el-menu-item index="/models">模型库</el-menu-item>
-      <el-menu-item index="/models/upload">上传模型</el-menu-item>
-    </el-sub-menu>
-    
-    <el-menu-item index="/logs">
-      <el-icon><Document /></el-icon>
-      <span>系统日志</span>
-    </el-menu-item>
-    
-    <el-sub-menu index="system">
-      <template #title>
-        <el-icon><Setting /></el-icon>
-        <span>系统设置</span>
-      </template>
-      <el-menu-item index="/system/users">用户管理</el-menu-item>
-      <el-menu-item index="/system/config">系统配置</el-menu-item>
-    </el-sub-menu>
+    <!-- 基于xc_recon_oldgui.md的9分组菜单结构 -->
+    <template v-for="menu in menuConfig" :key="menu.id">
+      <el-sub-menu v-if="menu.children && menu.children.length > 0" :index="menu.id">
+        <template #title>
+          <span class="menu-icon">{{ menu.icon }}</span>
+          <span>{{ menu.title }}</span>
+        </template>
+        <el-menu-item
+          v-for="child in menu.children"
+          :key="child.id"
+          :index="child.path"
+        >
+          <span class="submenu-icon">{{ child.icon }}</span>
+          <span>{{ child.title }}</span>
+        </el-menu-item>
+      </el-sub-menu>
+      
+      <el-menu-item v-else :index="menu.path">
+        <span class="menu-icon">{{ menu.icon }}</span>
+        <span>{{ menu.title }}</span>
+      </el-menu-item>
+    </template>
   </el-menu>
 </template>
 
 <script setup lang="ts">
-import { 
-  Monitor, 
-  Connection, 
-  List, 
-  View, 
-  Box, 
-  Document, 
-  Setting 
-} from '@element-plus/icons-vue'
+import { menuConfig } from '@/config/menu'
 
 const emit = defineEmits<{
   'item-click': []

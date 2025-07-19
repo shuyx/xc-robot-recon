@@ -1,85 +1,195 @@
-# PyQt5 组件实现规格
+# Vue 3 + TypeScript 组件实现规格
 
-## 主窗口结构（基于smart_interface系列）
-```python
-class SmartInterfaceMainWindow(QMainWindow):
-    def __init__(self):
-        # 主窗口尺寸: 全屏自适应或固定尺寸
-        self.setMinimumSize(1200, 800)
-        self.setWindowTitle("智能机器人交互系统")
-        
-class ChatInterface(QMainWindow):  # smart_interface_chat.html
-    def __init__(self):
-        # 对话式任务界面
-        self.setWindowTitle("对话式任务 - 监控与配置")
+## 重构技术栈架构（基于smart_interface系列）
+```typescript
+// 主应用结构 - Vue 3 + Element Plus
+// 前端: Vue 3 + TypeScript + Element Plus + Vite
+// 后端: FastAPI + Python 3.9+
+// 部署: Web应用 + Electron桌面端（可选）
 
-class ElivateInterface(QMainWindow):  # smart_interface_elivate.html  
-    def __init__(self):
-        # 智能提升界面
-        pass
+interface SmartInterfaceConfig {
+  framework: 'Vue 3 + TypeScript'
+  uiLibrary: 'Element Plus'
+  buildTool: 'Vite'
+  stateManagement: 'Pinia'
+  backend: 'FastAPI'
+}
 
-class FaceInterface(QMainWindow):  # smart_interface_face.html
-    def __init__(self):
-        # 人脸识别界面
-        pass
+// 主要界面组件
+interface ChatInterface {  // smart_interface_chat.html → Vue组件
+  component: 'ConversationalTaskPage.vue'
+  features: ['real-time-chat', 'task-monitoring', 'qr-generation']
+}
+
+interface ElevateInterface {  // smart_interface_elivate.html → Vue组件
+  component: 'ElevatorControlPage.vue'  
+  features: ['elevator-control', 'floor-selection', 'status-monitoring']
+}
+
+interface FaceInterface {  // smart_interface_face.html → Vue组件
+  component: 'FaceRecognitionPage.vue'
+  features: ['face-scanning', 'user-identification', 'permission-management']
+}
 ```
 
-## HTML集成方案
-```python
-# 推荐方案: QWebEngineView集成HTML (最佳选择)
-class SmartWebInterface(QWidget):
-    def __init__(self, html_file):
-        self.web_view = QWebEngineView()
-        self.channel = QWebChannel()
-        self.bridge = PythonJSBridge()  # Python-JS通信桥梁
-        
-        # 加载对应的HTML文件
-        html_path = f"design_reference/ui_mockups/{html_file}"
-        self.web_view.load(QUrl.fromLocalFile(html_path))
+## Vue 3组件实现方案
+```typescript
+// 推荐方案: Vue 3组件 + Element Plus UI库
+// 基于HTML mockup设计实现对应的Vue组件
 
-# 方案2: 纯PyQt5控件复制HTML布局 (复杂但控制精确)
-class SidebarWidget(QWidget):      # 对应HTML的sidebar
-class HeaderWidget(QWidget):       # 对应HTML的header  
-class MainContentWidget(QWidget):  # 对应HTML的main-content
-class ChatHistoryWidget(QWidget):  # 对应HTML的chat-history
-class TaskDetailsWidget(QWidget):  # 对应HTML的task-details
+// 主布局组件
+interface LayoutComponents {
+  AppLayout: 'components/layout/AppLayout.vue'     // 应用主框架
+  Sidebar: 'components/layout/Sidebar.vue'        // 侧边栏导航
+  Header: 'components/layout/Header.vue'          // 头部区域
+  MainContent: 'components/layout/MainContent.vue' // 主内容区
+}
+
+// 功能页面组件
+interface PageComponents {
+  ConversationalTask: 'pages/ConversationalTaskPage.vue'  // 对话式任务
+  FaceRecognition: 'pages/FaceRecognitionPage.vue'       // 人脸识别
+  ElevatorControl: 'pages/ElevatorControlPage.vue'       // 梯控系统
+}
+
+// 通用UI组件
+interface UIComponents {
+  ChatHistory: 'components/ui/ChatHistory.vue'      // 聊天记录
+  TaskDetails: 'components/ui/TaskDetails.vue'      // 任务详情
+  StatusIndicator: 'components/ui/StatusIndicator.vue' // 状态指示器
+  UserInfoCard: 'components/ui/UserInfoCard.vue'    // 用户信息卡片
+  QRCodeGenerator: 'components/ui/QRCodeGenerator.vue' // 二维码生成
+}
 ```
 
 ## 关键组件映射
 
-### 1. 侧边栏组件
-```python
-# HTML: <div class="fixed left-0 top-0 bottom-0 w-16 bg-white border-r border-gray-200">
-class SidebarWidget(QWidget):
-    def __init__(self):
-        self.setFixedWidth(64)  # w-16 = 64px
-        self.setStyleSheet("""
-            QWidget {
-                background-color: #ffffff;      /* 严格使用HTML中的white */
-                border-right: 1px solid #e5e7eb;  /* 严格使用HTML中的gray-200 */
-            }
-        """)
+### 1. 侧边栏组件 (Sidebar.vue)
+```vue
+<!-- HTML模板设计: <div class="fixed left-0 top-0 bottom-0 w-16 bg-white border-r border-gray-200"> -->
+<template>
+  <el-aside 
+    width="64px" 
+    class="sidebar-container"
+    :style="sidebarStyles"
+  >
+    <nav class="sidebar-nav">
+      <div class="logo-section">
+        <el-avatar 
+          :size="40" 
+          :style="{ backgroundColor: primaryColor }"
+          icon="Robot"
+        />
+      </div>
+      
+      <div class="nav-items">
+        <el-button
+          v-for="item in navItems"
+          :key="item.path"
+          :icon="item.icon"
+          circle
+          :type="isActive(item.path) ? 'primary' : 'default'"
+          @click="navigateTo(item.path)"
+          class="nav-button"
+        />
+      </div>
+    </nav>
+  </el-aside>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { useAppStore } from '@/stores/app'
+
+// 从HTML设计中提取的颜色值
+const sidebarStyles = computed(() => ({
+  backgroundColor: '#ffffff',        // 严格使用HTML中的white
+  borderRight: '1px solid #e5e7eb', // 严格使用HTML中的gray-200
+  position: 'fixed',
+  left: 0,
+  top: 0,
+  bottom: 0,
+  width: '64px'                      // w-16 = 64px
+}))
+</script>
 ```
 
-### 2. 主按钮
-```python
-# HTML: <button class="bg-primary-50 hover:bg-primary-100 text-primary-700">
-class PrimaryButton(QPushButton):
-    def __init__(self):
-        self.setText("🔍 生成二维码")
-        self.setStyleSheet("""
-            QPushButton {
-                background-color: #e0f2fe;      /* 严格使用HTML中的primary-50 */
-                color: #0369a1;                 /* 严格使用HTML中的primary-700 */
-                border: 1px solid #bae6fd;      /* 严格使用HTML中的primary-200 */
-                border-radius: 6px;
-                padding: 8px 16px;
-                font-weight: 500;
-            }
-            QPushButton:hover {
-                background-color: #f0f9ff;      /* 严格使用HTML中的primary-100 */
-            }
-        """)
+### 2. 主按钮组件 (PrimaryButton.vue)
+```vue
+<!-- HTML模板设计: <button class="bg-primary-50 hover:bg-primary-100 text-primary-700"> -->
+<template>
+  <el-button
+    :type="buttonType"
+    :size="size"
+    :icon="icon"
+    :loading="loading"
+    :disabled="disabled"
+    @click="handleClick"
+    :style="buttonStyles"
+    class="primary-button"
+  >
+    <slot>{{ text }}</slot>
+  </el-button>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+
+interface Props {
+  text?: string
+  icon?: string
+  size?: 'large' | 'default' | 'small'
+  loading?: boolean
+  disabled?: boolean
+  variant?: 'primary' | 'secondary'
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  text: '🔍 生成二维码',
+  size: 'default',
+  variant: 'primary'
+})
+
+const emit = defineEmits<{
+  click: [event: MouseEvent]
+}>()
+
+// 从HTML设计中严格提取的样式
+const buttonStyles = computed(() => {
+  const baseStyles = {
+    borderRadius: '6px',
+    padding: '8px 16px',
+    fontWeight: '500',
+    transition: 'all 0.3s ease'
+  }
+  
+  if (props.variant === 'primary') {
+    return {
+      ...baseStyles,
+      backgroundColor: '#e0f2fe',    // HTML中的primary-50
+      color: '#0369a1',             // HTML中的primary-700
+      border: '1px solid #bae6fd'   // HTML中的primary-200
+    }
+  }
+  
+  return baseStyles
+})
+
+const buttonType = computed(() => {
+  return props.variant === 'primary' ? 'primary' : 'default'
+})
+
+const handleClick = (event: MouseEvent) => {
+  emit('click', event)
+}
+</script>
+
+<style scoped>
+.primary-button:hover {
+  background-color: #f0f9ff !important;  /* HTML中的primary-100 */
+}
+</style>
 ```
 
 ### 3. 状态指示器
