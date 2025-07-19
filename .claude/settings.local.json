@@ -21,7 +21,9 @@
       "Bash(npm run type-check:*)",
       "Bash(git add:*)",
       "Bash(cp:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }
