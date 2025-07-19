@@ -792,6 +792,146 @@ XC-RECON-V2 双臂机器人控制系统
 
 ---
 
+## 📁 HTML文件存放规范
+
+### 存放位置
+所有设计好的UI界面HTML文件统一存放在：
+```
+docs/design/ui_mockups/
+```
+
+### 命名格式规范
+采用 `{模块名}_{功能名}.html` 格式，具体命名如下：
+
+#### 主要页面命名
+**快速启动模块**:
+- `quickstart_main.html` - 快速启动主页
+- `quickstart_favorites.html` - 收藏功能页面
+- `quickstart_recent.html` - 最近使用页面
+
+**设备连接模块**:
+- `device_connection.html` - 设备连接主页
+- `device_test.html` - 连接测试页面
+- `device_network.html` - 网络配置页面
+
+**机器人控制模块**:
+- `control_arm.html` - 机械臂控制页面
+- `control_chassis.html` - 底盘控制页面
+- `control_coordination.html` - 联动控制页面
+
+**智能交互模块** ⭐ (优先):
+- `interaction_face.html` - 人脸识别页面
+- `interaction_chat.html` - 智能对话页面
+- `interaction_elevator.html` - 梯控系统页面
+
+**场景测试模块**:
+- `testing_component.html` - 组件测试页面
+- `testing_integration.html` - 集成测试页面
+- `testing_vision.html` - 视觉引导测试页面
+- `testing_e2e.html` - 端到端场景页面
+
+**仿真规划模块**:
+- `simulation_robot.html` - 机器人仿真页面
+- `simulation_path.html` - 路径规划页面
+- `simulation_task.html` - 任务编排页面
+
+**视觉感知模块**:
+- `vision_system.html` - 视觉系统页面
+- `vision_calibration.html` - 相机标定页面
+- `vision_pointcloud.html` - 点云处理页面
+- `vision_image.html` - 图像处理页面
+
+**数据监控模块**:
+- `monitoring_system.html` - 系统监控页面
+- `monitoring_analytics.html` - 数据分析页面
+- `monitoring_performance.html` - 性能统计页面
+
+**系统管理模块**:
+- `management_config.html` - 参数配置页面
+- `management_maintenance.html` - 维护管理页面
+- `management_settings.html` - 系统设置页面
+
+**通用组件**:
+- `layout_main.html` - 主布局框架
+- `layout_sidebar.html` - 侧边栏菜单
+- `layout_header.html` - 头部导航
+
+### 目录组织结构
+为便于管理，建议按模块创建子目录：
+
+```
+docs/design/ui_mockups/
+├── layout/                 # 布局相关
+│   ├── main_layout.html
+│   ├── sidebar_menu.html
+│   └── header_nav.html
+├── quickstart/            # 快速启动
+│   ├── main.html
+│   ├── favorites.html
+│   └── recent.html
+├── interaction/           # 智能交互 ⭐ 优先
+│   ├── face_recognition.html
+│   ├── conversational_task.html
+│   └── elevator_control.html
+├── control/               # 机器人控制
+│   ├── arm_control.html
+│   ├── chassis_control.html
+│   └── coordination.html
+├── device/               # 设备连接
+│   ├── connection.html
+│   ├── test.html
+│   └── network.html
+├── testing/              # 场景测试
+│   ├── component.html
+│   ├── integration.html
+│   ├── vision.html
+│   └── e2e.html
+├── simulation/           # 仿真规划
+│   ├── robot.html
+│   ├── path.html
+│   └── task.html
+├── vision/               # 视觉感知
+│   ├── system.html
+│   ├── calibration.html
+│   ├── pointcloud.html
+│   └── image.html
+├── monitoring/           # 数据监控
+│   ├── system.html
+│   ├── analytics.html
+│   └── performance.html
+└── management/           # 系统管理
+    ├── config.html
+    ├── maintenance.html
+    └── settings.html
+```
+
+### 实施优先级
+
+**P0-最高优先级** (立即需要):
+1. `layout/main_layout.html` - 主布局框架
+2. `interaction/face_recognition.html` - 人脸识别页面  
+3. `interaction/conversational_task.html` - 智能对话页面
+4. `interaction/elevator_control.html` - 梯控系统页面
+
+**P1-重要** (第二批):
+5. `device/connection.html` - 设备连接页面
+6. `control/arm_control.html` - 机械臂控制页面
+7. `control/coordination.html` - 联动控制页面
+
+### 与Vue组件的对应关系
+HTML文件路径将直接对应Vue组件路径：
+- `interaction/face_recognition.html` → `src/views/interaction/FaceRecognitionPage.vue`
+- `control/arm_control.html` → `src/views/control/ArmControlPage.vue`
+- `layout/main_layout.html` → `src/components/layout/MainLayout.vue`
+
+这样的命名和组织方式便于：
+- 快速定位对应功能的设计文件
+- 与Vue组件文件路径保持一致性  
+- 团队协作时易于理解和维护
+- 后续转换为Vue组件时直接对应
+
+---
+
 **状态**: UX Pilot设计指南完成，可直接用于页面设计 ✨  
 **使用方法**: 复制对应页面的描述内容到UX Pilot输入框  
 **设计原则**: 遵循Element Plus设计语言，保持配色和交互一致性
