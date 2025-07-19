@@ -4,6 +4,8 @@
 **文档版本**: v1.0  
 **维护者**: Kevin Yuan
 
+> 🤖 **Claude AI协作**: 请优先阅读 [CLAUDE_MEMORY.md](../CLAUDE_MEMORY.md) 获取项目核心记忆和工作指南
+
 ---
 
 ## 📖 文档概述
@@ -97,13 +99,18 @@ UI设计、组件规范和用户体验指南
 4. **深入细节** → 阅读具体实现文档
 
 #### 🔍 AI助手参考指南
-当您需要AI助手帮助时，可以这样引用：
+当您需要AI助手帮助时，请按以下顺序引用：
 
-```
+```bash
+# 1. 首先阅读项目记忆 (必读)
+@CLAUDE_MEMORY.md - 🤖 Claude项目记忆和工作指南
+
+# 2. 根据任务类型选择相关文档
 @docs/technical/xc_os_context.md - 了解项目背景和约束
-@docs/hardware/FR3_ROBOT_ANALYSIS.md - 获取机械臂技术细节
+@docs/hardware/FR3_ROBOT_ANALYSIS.md - 获取机械臂技术细节  
 @docs/design/design_reference/ - 参考UI/UX设计规范
 @docs/testing/Testing_Plan.md - 了解测试要求和安全规范
+@xc_recon_8.md - 查看最新开发状态
 ```
 
 #### 📝 文档维护
