@@ -26,6 +26,7 @@
 ### 📁 [hardware/](./hardware/) - 硬件文档
 机器人硬件、控制协议和配置说明
 
+#### 基础硬件文档
 | 文件名 | 描述 | 重要程度 | 用途 |
 |--------|------|----------|------|
 | [FR3_ROBOT_ANALYSIS.md](./hardware/FR3_ROBOT_ANALYSIS.md) | **FR3机械臂分析** | ⭐⭐⭐⭐⭐ | 运动学模型、DH参数、控制接口 |
@@ -33,6 +34,23 @@
 | [hermes_control_doc.md](./hardware/hermes_control_doc.md) | **Hermes底盘控制** | ⭐⭐⭐⭐ | 移动底盘控制和导航API |
 | [gemini335_control_doc.md](./hardware/gemini335_control_doc.md) | **视觉系统文档** | ⭐⭐⭐ | 相机集成和视觉处理 |
 | [robot_config_reference.json](./hardware/robot_config_reference.json) | **配置参考** | ⭐⭐⭐ | 硬件配置参数和网络设置 |
+
+#### 🆕 完整API文档集合 (2025-07-19新增)
+| 目录/文件 | 描述 | 重要程度 | 用途 |
+|-----------|------|----------|------|
+| **[fr3_sdk/](./hardware/fr3_sdk/)** | **FR3 Python SDK完整文档** | ⭐⭐⭐⭐⭐ | 法奥意威FR3协作机器人完整开发手册 |
+| [fr3_sdk/【FR3】1. 机器人基础.html](./hardware/fr3_sdk/) | FR3基础功能 | ⭐⭐⭐⭐⭐ | 机器人连接、初始化、基本操作 |
+| [fr3_sdk/【FR3】2. 机器人运动.html](./hardware/fr3_sdk/) | FR3运动控制 | ⭐⭐⭐⭐⭐ | 轨迹规划、运动控制、坐标系 |
+| [fr3_sdk/【FR10】10. 机器人力控.html](./hardware/fr3_sdk/) | FR3力控功能 | ⭐⭐⭐⭐ | 力反馈控制、碰撞检测、安全功能 |
+| [fr3_sdk/SDK 错误码对照表.html](./hardware/fr3_sdk/) | FR3错误码参考 | ⭐⭐⭐⭐ | 错误诊断和故障排除 |
+| **[hermes_api/](./hardware/hermes_api/)** | **Hermes底盘RESTful API文档** | ⭐⭐⭐⭐⭐ | 思岚科技Hermes底盘完整开发文档 |
+| [hermes_api/赫尔墨斯 Hermes 用户手册.html](./hardware/hermes_api/) | Hermes用户手册 | ⭐⭐⭐⭐⭐ | 底盘控制、导航、定位功能 |
+| [hermes_api/Slamware RESTful API开发手册.html](./hardware/hermes_api/) | RESTful API开发 | ⭐⭐⭐⭐⭐ | HTTP API接口、数据格式、调用示例 |
+| [hermes_api/Swagger Restful UI.html](./hardware/hermes_api/) | API接口文档 | ⭐⭐⭐⭐ | 交互式API文档和测试界面 |
+| **[gemini335/](./hardware/gemini335/)** | **Gemini335视觉系统文档** | ⭐⭐⭐⭐ | TOF深度相机完整开发文档 |
+| [gemini335/Gemini 335系列相机简易使用指南.html](./hardware/gemini335/) | 相机使用指南 | ⭐⭐⭐⭐ | 快速入门、基本配置、软件安装 |
+| [gemini335/Gemini 335 相机功能矩阵.html](./hardware/gemini335/) | 功能规格参考 | ⭐⭐⭐ | 技术参数、支持功能、兼容性 |
+| [gemini335/Gemini 335系列-USB设备产品规格书.html](./hardware/gemini335/) | 硬件规格书 | ⭐⭐⭐ | 物理参数、接口规格、环境要求 |
 
 ### 📁 [design/](./design/) - 设计文档
 UI设计、组件规范和用户体验指南
@@ -81,6 +99,11 @@ UI设计、组件规范和用户体验指南
 2. **[dual_arm_integration_guide.md](./development/dual_arm_integration_guide.md)** - 双臂集成
 3. **[Testing_Plan.md](./testing/Testing_Plan.md)** - 测试和验证策略
 
+### 🆕 硬件集成开发者关注 🔧 (新增)
+1. **[fr3_sdk/](./hardware/fr3_sdk/)** - FR3 Python SDK完整API文档
+2. **[hermes_api/](./hardware/hermes_api/)** - Hermes底盘RESTful API文档
+3. **[gemini335/](./hardware/gemini335/)** - Gemini335视觉系统完整文档
+
 ### 系统集成者关注 🔧
 1. **[DEPLOYMENT_GUIDE.md](./development/DEPLOYMENT_GUIDE.md)** - 部署和配置
 2. **[robot_config_reference.json](./hardware/robot_config_reference.json)** - 配置参数
@@ -111,6 +134,11 @@ UI设计、组件规范和用户体验指南
 @docs/design/design_reference/ - 参考UI/UX设计规范
 @docs/testing/Testing_Plan.md - 了解测试要求和安全规范
 @xc_recon_8.md - 查看最新开发状态
+
+# 3. 硬件开发专项文档 (新增)
+@docs/hardware/fr3_sdk/ - FR3机械臂Python SDK完整API参考
+@docs/hardware/hermes_api/ - Hermes底盘RESTful API和开发手册
+@docs/hardware/gemini335/ - Gemini335视觉系统完整技术文档
 ```
 
 #### 📝 文档维护

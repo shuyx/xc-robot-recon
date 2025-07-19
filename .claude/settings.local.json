@@ -23,7 +23,8 @@
       "Bash(cp:*)",
       "Bash(find:*)",
       "Bash(git rm:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": []
   }
