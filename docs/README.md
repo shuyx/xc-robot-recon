@@ -4,7 +4,7 @@
 **文档版本**: v1.0  
 **维护者**: Kevin Yuan
 
-> 🤖 **Claude AI协作**: 请优先阅读 [CLAUDE_MEMORY.md](../CLAUDE_MEMORY.md) 获取项目核心记忆和工作指南
+> 🤖 **Claude AI协作**: 请优先阅读 [CLAUDE.md](../CLAUDE.md) 获取项目核心记忆和工作指南
 
 ---
 
@@ -103,7 +103,7 @@ UI设计、组件规范和用户体验指南
 
 ```bash
 # 1. 首先阅读项目记忆 (必读)
-@CLAUDE_MEMORY.md - 🤖 Claude项目记忆和工作指南
+@CLAUDE.md - 🤖 Claude项目记忆和工作指南
 
 # 2. 根据任务类型选择相关文档
 @docs/technical/xc_os_context.md - 了解项目背景和约束
