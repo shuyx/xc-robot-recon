@@ -9,8 +9,8 @@ const componentMap: Record<string, () => Promise<any>> = {
   
   // 快速启动
   'main-dashboard': () => import('@/views/Dashboard.vue'),
-  'favorites': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
-  'recent': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
+  'favorites': () => import('@/views/QuickLaunch.vue'), // 收藏功能已在QuickLaunch中实现
+  'recent': () => import('@/views/QuickLaunch.vue'), // 最近使用功能已在QuickLaunch中实现
   
   // 设备连接
   'device-connect': () => import('@/views/DeviceConnection.vue'),
@@ -52,7 +52,11 @@ const componentMap: Record<string, () => Promise<any>> = {
   // 系统管理
   'system-settings': () => import('@/views/Settings.vue'),
   'parameter-config': () => import('@/views/Config.vue'),
-  'maintenance': () => import('@/views/Maintenance.vue')
+  'maintenance': () => import('@/views/Maintenance.vue'),
+  
+  // 文档页面
+  'technical-support': () => import('@/views/docs/TechnicalSupportPage.vue'),
+  'software-info': () => import('@/views/docs/SoftwareInfoPage.vue')
 }
 
 // 生成子路由配置
@@ -105,6 +109,29 @@ export function generateChildRoutes(): RouteRecordRaw[] {
       title: '图标测试',
       icon: 'fa-solid fa-vials',
       hidden: false
+    }
+  })
+  
+  // 添加文档页面路由
+  routes.push({
+    path: '/docs/technical-support',
+    name: 'technical-support',
+    component: componentMap['technical-support'],
+    meta: {
+      title: '技术文档',
+      icon: 'fa-solid fa-life-ring',
+      hidden: true
+    }
+  })
+  
+  routes.push({
+    path: '/docs/software-info',
+    name: 'software-info', 
+    component: componentMap['software-info'],
+    meta: {
+      title: '软件信息',
+      icon: 'fa-solid fa-info-circle',
+      hidden: true
     }
   })
   

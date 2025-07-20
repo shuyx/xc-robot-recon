@@ -14,18 +14,14 @@
       <!-- Center - Quick Links -->
       <div class="footer-center">
         <div class="footer-links">
-          <a href="#" class="footer-link">
-            <i class="fa-solid fa-book"></i>
-            文档中心
-          </a>
-          <a href="#" class="footer-link">
+          <router-link to="/docs/technical-support" class="footer-link">
             <i class="fa-solid fa-life-ring"></i>
-            技术支持
-          </a>
-          <a href="#" class="footer-link">
-            <i class="fa-solid fa-envelope"></i>
-            联系我们
-          </a>
+            技术文档
+          </router-link>
+          <router-link to="/docs/software-info" class="footer-link">
+            <i class="fa-solid fa-info-circle"></i>
+            软件信息
+          </router-link>
         </div>
       </div>
 

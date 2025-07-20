@@ -51,9 +51,9 @@ export const menuConfig: MenuItem[] = [
   {
     id: 'scene-testing',
     title: '场景测试',
-    icon: 'Experiment',
+    icon: 'SetUp',
     children: [
-      { id: 'component-test', title: '组件测试', icon: 'Experiment', path: '/testing/component' },
+      { id: 'component-test', title: '组件测试', icon: 'Tools', path: '/testing/component' },
       { id: 'integration-test', title: '集成测试', icon: 'Link', path: '/testing/integration' },
       { id: 'vision-guided-test', title: '视觉引导测试', icon: 'View', path: '/testing/vision' },
       { id: 'end-to-end-test', title: '端到端场景', icon: 'Aim', path: '/testing/e2e' }

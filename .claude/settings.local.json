@@ -28,7 +28,9 @@
       "mcp__zen__thinkdeep",
       "Bash(cat:*)",
       "Bash(npx tailwindcss:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(git push:*)",
+      "Bash(kill:*)"
     ],
     "deny": []
   }

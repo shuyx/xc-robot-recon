@@ -60,17 +60,6 @@
           </button>
         </div>
 
-        <!-- Language Switcher -->
-        <div class="language-switcher">
-          <button class="language-button">
-            <el-icon>
-              <SwitchButton />
-            </el-icon>
-            <span class="language-text">中</span>
-            <span class="language-divider">/</span>
-            <span class="language-inactive">EN</span>
-          </button>
-        </div>
 
         <!-- System Status Area -->
         <div class="status-area">
@@ -268,6 +257,7 @@ const handleLogPanelClick = () => {
   emit('toggle-log-panel')
 }
 
+
 // 监听Ctrl+K快捷键
 onMounted(() => {
   window.addEventListener('keydown', (e) => {
@@ -443,36 +433,6 @@ onMounted(() => {
   color: var(--primary-color, #409EFF);
 }
 
-/* Language Switcher */
-.language-button {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 8px;
-  border: none;
-  background: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.language-button:hover {
-  background: #f5f7fa;
-}
-
-.language-button i {
-  color: var(--primary-color, #409EFF);
-}
-
-.language-text {
-  color: var(--secondary-color, #2c3e50);
-  font-weight: 500;
-}
-
-.language-divider,
-.language-inactive {
-  color: #909399;
-}
 
 /* Status Area */
 .status-area {

@@ -26,6 +26,8 @@
             placeholder="搜索功能..." 
             class="search-input"
             @input="handleSearch"
+            @keydown.enter="handleSearchEnter"
+            @keydown.escape="clearSearch"
           >
           <el-icon class="search-icon">
             <Search />
@@ -142,8 +144,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { menuConfig, menuIconColors, type MenuItem } from '@/config/menu'
 import { 
   Avatar, 
@@ -152,7 +154,33 @@ import {
   ArrowDown, 
   Search,
   Connection,
-  Promotion
+  Promotion,
+  SetUp,
+  Tools,
+  Lightning,
+  House,
+  Star,
+  Clock,
+  Link,
+  Operation,
+  Aim,
+  Refresh,
+  ChatDotRound,
+  User,
+  ChatRound,
+  OfficeBuilding,
+  View,
+  Coordinate,
+  VideoPlay,
+  Map,
+  Document,
+  TrendCharts,
+  PieChart,
+  LineChart,
+  Setting,
+  Cloudy,
+  Picture,
+  Camera
 } from '@element-plus/icons-vue'
 
 // Props
@@ -170,6 +198,7 @@ const emit = defineEmits<{
 
 // Router
 const router = useRouter()
+const route = useRoute()
 
 // 响应式数据
 const searchQuery = ref('')
@@ -188,7 +217,9 @@ const filteredMenuConfig = computed(() => {
     ...menu,
     children: menu.children?.filter(child => 
       child.title.toLowerCase().includes(query) ||
-      menu.title.toLowerCase().includes(query)
+      menu.title.toLowerCase().includes(query) ||
+      // 添加更多搜索关键词支持
+      getSearchKeywords(child).some(keyword => keyword.includes(query))
     )
   })).filter(menu => 
     menu.title.toLowerCase().includes(query) || 
@@ -226,7 +257,13 @@ const toggleMenuGroup = (groupId: string) => {
   } else {
     expandedGroups.value.push(groupId)
   }
-  activeGroupId.value = groupId
+  // 只有当点击的菜单组包含当前活跃菜单项时，才更新activeGroupId
+  // 否则保持当前的高亮状态
+  const currentMenuParentGroup = findParentGroupId(activeMenuId.value)
+  if (currentMenuParentGroup !== groupId) {
+    // 如果点击的不是当前活跃菜单项的父组，不改变活跃组
+    // 这样可以避免点击其他菜单组时高亮状态的意外改变
+  }
 }
 
 // 处理菜单项点击
@@ -245,8 +282,6 @@ const handleMenuItemClick = (menuItem: MenuItem) => {
 
 // 处理折叠状态菜单点击
 const handleCollapsedMenuClick = (menu: MenuItem, index: number) => {
-  activeGroupId.value = menu.id
-  
   // 在折叠状态下点击菜单组，展开侧边栏并展开该菜单组
   emit('toggle-collapse')
   
@@ -254,7 +289,74 @@ const handleCollapsedMenuClick = (menu: MenuItem, index: number) => {
     if (!expandedGroups.value.includes(menu.id)) {
       expandedGroups.value.push(menu.id)
     }
+    // 只有当该菜单组包含子菜单项且有默认选择时，才设置为活跃组
+    if (menu.children && menu.children.length > 0) {
+      // 检查该组是否包含当前活跃的菜单项
+      const hasActiveChild = menu.children.some(child => child.id === activeMenuId.value)
+      if (!hasActiveChild) {
+        // 如果当前活跃菜单项不在这个组中，可以选择第一个子菜单作为活跃项
+        // 但为了避免意外跳转，这里只展开菜单组而不设置活跃状态
+      }
+    }
   }, 300) // 等待侧边栏展开动画完成
+}
+
+// 获取搜索关键词
+const getSearchKeywords = (menuItem: MenuItem): string[] => {
+  const keywords: string[] = []
+  
+  // 根据菜单ID添加相关关键词
+  const keywordMap: Record<string, string[]> = {
+    // 快速启动
+    'main-dashboard': ['仪表板', '主页', '首页', 'dashboard', 'home'],
+    'favorites': ['收藏', '书签', '常用', 'favorite', 'bookmark'],
+    'recent': ['最近', '历史', '记录', 'recent', 'history'],
+    
+    // 设备连接
+    'device-connect': ['连接', '设备', '网络', 'connect', 'device', 'network'],
+    'network-config': ['网络', '配置', '设置', 'network', 'config', 'setting'],
+    'device-test': ['测试', '检测', '诊断', 'test', 'check', 'diagnosis'],
+    
+    // 机器人控制
+    'arm-control': ['机械臂', '机器手', '臂', 'arm', 'robot', 'manipulator'],
+    'chassis-control': ['底盘', '移动', '导航', 'chassis', 'mobile', 'navigation'],
+    'joint-control': ['联动', '协调', '同步', 'joint', 'coordinate', 'sync'],
+    
+    // 智能交互
+    'face-recognition': ['人脸', '识别', '视觉', 'face', 'recognition', 'vision'],
+    'smart-chat': ['对话', '聊天', '交流', 'chat', 'talk', 'conversation'],
+    'elevator-control': ['电梯', '梯控', '楼层', 'elevator', 'floor', 'lift'],
+    
+    // 场景测试
+    'component-test': ['组件', '模块', '单元', 'component', 'module', 'unit'],
+    'integration-test': ['集成', '整合', '联调', 'integration', 'combine'],
+    'vision-guided-test': ['视觉', '引导', '导航', 'vision', 'guided', 'visual'],
+    'end-to-end-test': ['端到端', '全流程', '完整', 'e2e', 'end-to-end', 'complete'],
+    
+    // 仿真规划
+    'robot-simulation': ['仿真', '模拟', '虚拟', 'simulation', 'simulate', 'virtual'],
+    'path-planning': ['路径', '规划', '导航', 'path', 'planning', 'route'],
+    'task-orchestration': ['任务', '编排', '调度', 'task', 'orchestration', 'schedule'],
+    
+    // 视觉感知
+    'vision-system': ['视觉', '相机', '摄像', 'vision', 'camera', 'visual'],
+    'camera-calibration': ['标定', '校准', '调试', 'calibration', 'calibrate'],
+    'point-cloud': ['点云', '深度', '3D', 'pointcloud', 'depth', '3d'],
+    'image-processing': ['图像', '处理', '分析', 'image', 'processing', 'analysis'],
+    
+    // 数据监控
+    'system-monitor': ['监控', '监视', '状态', 'monitor', 'watch', 'status'],
+    'data-analysis': ['数据', '分析', '统计', 'data', 'analysis', 'statistics'],
+    'performance-stats': ['性能', '统计', '指标', 'performance', 'stats', 'metrics'],
+    
+    // 系统管理
+    'system-settings': ['设置', '配置', '参数', 'settings', 'config', 'parameters'],
+    'parameter-config': ['参数', '配置', '设定', 'parameter', 'config', 'setting'],
+    'maintenance': ['维护', '保养', '管理', 'maintenance', 'manage', 'service']
+  }
+  
+  keywords.push(...(keywordMap[menuItem.id] || []))
+  return keywords.map(k => k.toLowerCase())
 }
 
 // 处理搜索输入
@@ -268,7 +370,28 @@ const handleSearch = () => {
       }
     })
     expandedGroups.value = newExpandedGroups
+  } else {
+    // 清空搜索时恢复默认展开状态
+    expandedGroups.value = ['quick-launch', 'robot-control', 'scene-testing']
   }
+}
+
+// 处理搜索回车键
+const handleSearchEnter = () => {
+  // 如果有搜索结果，自动点击第一个菜单项
+  if (searchQuery.value.trim() && filteredMenuConfig.value.length > 0) {
+    const firstMenu = filteredMenuConfig.value[0]
+    if (firstMenu.children && firstMenu.children.length > 0) {
+      const firstChild = firstMenu.children[0]
+      handleMenuItemClick(firstChild)
+    }
+  }
+}
+
+// 清空搜索
+const clearSearch = () => {
+  searchQuery.value = ''
+  handleSearch()
 }
 
 // 查找菜单项的父级菜单组ID
@@ -279,6 +402,42 @@ const findParentGroupId = (menuItemId: string): string | null => {
     }
   }
   return null
+}
+
+// 根据路径查找对应的菜单项ID
+const findMenuItemByPath = (path: string): string | null => {
+  for (const menu of menuConfig) {
+    if (menu.children) {
+      for (const child of menu.children) {
+        if (child.path === path) {
+          return child.id
+        }
+      }
+    }
+  }
+  return null
+}
+
+// 更新当前路由对应的高亮状态
+const updateActiveStateFromRoute = () => {
+  const currentPath = route.path
+  const menuItemId = findMenuItemByPath(currentPath)
+  
+  if (menuItemId) {
+    activeMenuId.value = menuItemId
+    const parentGroupId = findParentGroupId(menuItemId)
+    if (parentGroupId) {
+      activeGroupId.value = parentGroupId
+      // 确保包含当前菜单项的菜单组是展开的
+      if (!expandedGroups.value.includes(parentGroupId)) {
+        expandedGroups.value.push(parentGroupId)
+      }
+    }
+  } else {
+    // 如果当前路径不在菜单配置中，清除高亮状态
+    activeMenuId.value = ''
+    activeGroupId.value = ''
+  }
 }
 
 // 键盘快捷键处理
@@ -299,13 +458,19 @@ const handleKeyboardShortcut = (event: KeyboardEvent) => {
   }
 }
 
-// 组件挂载时设置键盘监听
+// 监听路由变化，更新高亮状态
+watch(() => route.path, () => {
+  updateActiveStateFromRoute()
+}, { immediate: false })
+
+// 组件挂载时设置键盘监听和初始化高亮状态
 onMounted(() => {
   window.addEventListener('keydown', handleKeyboardShortcut)
+  // 初始化时根据当前路由设置高亮状态
+  updateActiveStateFromRoute()
 })
 
 // 组件卸载时移除键盘监听
-import { onUnmounted } from 'vue'
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyboardShortcut)
 })
@@ -328,6 +493,7 @@ onUnmounted(() => {
   transition: all 0.3s ease-in-out;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-bottom: 48px; /* 给footer留出空间 */
 }
 
 /* 系统Logo区域 */
@@ -401,6 +567,11 @@ onUnmounted(() => {
   box-shadow: 0 0 0 1px var(--primary-color, #409EFF);
 }
 
+.search-input:not(:placeholder-shown) {
+  background: rgba(64, 158, 255, 0.1);
+  border: 1px solid var(--primary-color, #409EFF);
+}
+
 .search-icon {
   position: absolute;
   left: 12px;
@@ -437,8 +608,16 @@ onUnmounted(() => {
   background: var(--hover-color, rgba(255, 255, 255, 0.1));
 }
 
+/* 父级菜单高亮 - 较淡的背景 */
 .menu-group-header.active {
-  background: rgba(64, 158, 255, 0.2);
+  background: rgba(64, 158, 255, 0.15);
+  border-left: 3px solid var(--primary-color, #409EFF);
+}
+
+/* 父级菜单高亮时的标题颜色 */
+.menu-group-header.active .group-title span {
+  color: var(--primary-color, #409EFF);
+  font-weight: 600;
 }
 
 .group-title {
@@ -483,8 +662,13 @@ onUnmounted(() => {
   background: var(--hover-color, rgba(255, 255, 255, 0.1));
 }
 
+/* 当前页面菜单项高亮 - 强烈的背景和边框 */
 .menu-item.active {
-  background: rgba(64, 158, 255, 0.3);
+  background: rgba(64, 158, 255, 0.4);
+  border-left: 4px solid var(--primary-color, #409EFF);
+  margin-left: 12px;
+  border-radius: 4px;
+  font-weight: bold;
 }
 
 .item-icon {
@@ -498,7 +682,14 @@ onUnmounted(() => {
 }
 
 .menu-item.active .item-icon {
-  color: var(--primary-color, #409EFF);
+  color: white;
+  background: var(--primary-color, #409EFF);
+  border-radius: 3px;
+  padding: 2px;
+}
+
+.menu-item.active .item-title {
+  color: white;
 }
 
 .item-title {
@@ -547,6 +738,7 @@ onUnmounted(() => {
   transition: all 0.3s ease-in-out;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-bottom: 48px; /* 给footer留出空间 */
 }
 
 /* 折叠状态Logo */
