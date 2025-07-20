@@ -11,93 +11,93 @@ export const menuConfig: MenuItem[] = [
   {
     id: 'quick-launch',
     title: '快速启动',
-    icon: 'fa-solid fa-bolt',
+    icon: 'Lightning',
     children: [
-      { id: 'main-dashboard', title: '主界面', icon: 'fa-solid fa-clipboard-list', path: '/dashboard' },
-      { id: 'favorites', title: '收藏功能', icon: 'fa-solid fa-star', path: '/favorites' },
-      { id: 'recent', title: '最近使用', icon: 'fa-solid fa-clock', path: '/recent' }
+      { id: 'main-dashboard', title: '主界面', icon: 'House', path: '/dashboard' },
+      { id: 'favorites', title: '收藏功能', icon: 'Star', path: '/favorites' },
+      { id: 'recent', title: '最近使用', icon: 'Clock', path: '/recent' }
     ]
   },
   {
     id: 'device-connection',
     title: '设备连接',
-    icon: 'fa-solid fa-plug',
+    icon: 'Connection',
     children: [
-      { id: 'device-connect', title: '设备连接', icon: 'fa-solid fa-link', path: '/device/connection' },
-      { id: 'network-config', title: '网络配置', icon: 'fa-solid fa-globe', path: '/device/network' },
-      { id: 'device-test', title: '设备测试', icon: 'fa-solid fa-flask', path: '/device/test' }
+      { id: 'device-connect', title: '设备连接', icon: 'Link', path: '/device/connection' },
+      { id: 'network-config', title: '网络配置', icon: 'Promotion', path: '/device/network' },
+      { id: 'device-test', title: '设备测试', icon: 'Operation', path: '/device/test' }
     ]
   },
   {
     id: 'robot-control',
     title: '机器人控制',
-    icon: 'fa-solid fa-robot',
+    icon: 'Avatar',
     children: [
-      { id: 'arm-control', title: '机械臂控制', icon: 'fa-solid fa-robot', path: '/robot/arm' },
-      { id: 'chassis-control', title: '底盘控制', icon: 'fa-solid fa-bullseye', path: '/robot/chassis' },
-      { id: 'joint-control', title: '联动控制', icon: 'fa-solid fa-sync', path: '/robot/joint' }
+      { id: 'arm-control', title: '机械臂控制', icon: 'Avatar', path: '/robot/arm' },
+      { id: 'chassis-control', title: '底盘控制', icon: 'Aim', path: '/robot/chassis' },
+      { id: 'joint-control', title: '联动控制', icon: 'Refresh', path: '/robot/joint' }
     ]
   },
   {
     id: 'intelligent-interaction',
     title: '智能交互',
-    icon: 'fa-solid fa-handshake',
+    icon: 'ChatDotRound',
     children: [
-      { id: 'face-recognition', title: '人脸识别', icon: 'fa-solid fa-user', path: '/interaction/face' },
-      { id: 'smart-chat', title: '智能对话', icon: 'fa-solid fa-comment', path: '/interaction/chat' },
-      { id: 'elevator-control', title: '梯控系统', icon: 'fa-solid fa-building', path: '/interaction/elevator' }
+      { id: 'face-recognition', title: '人脸识别', icon: 'User', path: '/interaction/face' },
+      { id: 'smart-chat', title: '智能对话', icon: 'ChatRound', path: '/interaction/chat' },
+      { id: 'elevator-control', title: '梯控系统', icon: 'OfficeBuilding', path: '/interaction/elevator' }
     ]
   },
   {
     id: 'scene-testing',
     title: '场景测试',
-    icon: 'fa-solid fa-flask',
+    icon: 'Experiment',
     children: [
-      { id: 'component-test', title: '组件测试', icon: 'fa-solid fa-flask', path: '/testing/component' },
-      { id: 'integration-test', title: '集成测试', icon: 'fa-solid fa-link', path: '/testing/integration' },
-      { id: 'vision-guided-test', title: '视觉引导测试', icon: 'fa-solid fa-eye', path: '/testing/vision' },
-      { id: 'end-to-end-test', title: '端到端场景', icon: 'fa-solid fa-bullseye', path: '/testing/e2e' }
+      { id: 'component-test', title: '组件测试', icon: 'Experiment', path: '/testing/component' },
+      { id: 'integration-test', title: '集成测试', icon: 'Link', path: '/testing/integration' },
+      { id: 'vision-guided-test', title: '视觉引导测试', icon: 'View', path: '/testing/vision' },
+      { id: 'end-to-end-test', title: '端到端场景', icon: 'Aim', path: '/testing/e2e' }
     ]
   },
   {
     id: 'simulation-planning',
     title: '仿真规划',
-    icon: 'fa-solid fa-bullseye',
+    icon: 'Coordinate',
     children: [
-      { id: 'robot-simulation', title: '机器人仿真', icon: 'fa-solid fa-gamepad', path: '/simulation/robot' },
-      { id: 'path-planning', title: '路径规划', icon: 'fa-solid fa-map', path: '/simulation/path' },
-      { id: 'task-orchestration', title: '任务编排', icon: 'fa-solid fa-clipboard-list', path: '/simulation/task' }
+      { id: 'robot-simulation', title: '机器人仿真', icon: 'VideoPlay', path: '/simulation/robot' },
+      { id: 'path-planning', title: '路径规划', icon: 'Map', path: '/simulation/path' },
+      { id: 'task-orchestration', title: '任务编排', icon: 'Document', path: '/simulation/task' }
     ]
   },
   {
     id: 'visual-perception',
     title: '视觉感知',
-    icon: 'fa-solid fa-eye',
+    icon: 'View',
     children: [
-      { id: 'vision-system', title: '视觉系统', icon: 'fa-solid fa-eye', path: '/vision/system' },
-      { id: 'camera-calibration', title: '相机标定', icon: 'fa-solid fa-camera', path: '/vision/calibration' },
-      { id: 'point-cloud', title: '点云处理', icon: 'fa-solid fa-cloud', path: '/vision/pointcloud' },
-      { id: 'image-processing', title: '图像处理', icon: 'fa-solid fa-image', path: '/vision/image' }
+      { id: 'vision-system', title: '视觉系统', icon: 'View', path: '/vision/system' },
+      { id: 'camera-calibration', title: '相机标定', icon: 'Camera', path: '/vision/calibration' },
+      { id: 'point-cloud', title: '点云处理', icon: 'Cloudy', path: '/vision/pointcloud' },
+      { id: 'image-processing', title: '图像处理', icon: 'Picture', path: '/vision/image' }
     ]
   },
   {
     id: 'data-monitoring',
     title: '数据监控',
-    icon: 'fa-solid fa-chart-bar',
+    icon: 'TrendCharts',
     children: [
-      { id: 'system-monitor', title: '系统监控', icon: 'fa-solid fa-chart-bar', path: '/monitoring/system' },
-      { id: 'data-analysis', title: '数据分析', icon: 'fa-solid fa-chart-pie', path: '/monitoring/analysis' },
-      { id: 'performance-stats', title: '性能统计', icon: 'fa-solid fa-chart-line', path: '/monitoring/performance' }
+      { id: 'system-monitor', title: '系统监控', icon: 'TrendCharts', path: '/monitoring/system' },
+      { id: 'data-analysis', title: '数据分析', icon: 'PieChart', path: '/monitoring/analysis' },
+      { id: 'performance-stats', title: '性能统计', icon: 'LineChart', path: '/monitoring/performance' }
     ]
   },
   {
     id: 'system-management',
     title: '系统管理',
-    icon: 'fa-solid fa-cog',
+    icon: 'Setting',
     children: [
-      { id: 'system-settings', title: '系统设置', icon: 'fa-solid fa-cog', path: '/management/settings' },
-      { id: 'parameter-config', title: '参数配置', icon: 'fa-solid fa-sliders-h', path: '/management/config' },
-      { id: 'maintenance', title: '维护管理', icon: 'fa-solid fa-tools', path: '/management/maintenance' }
+      { id: 'system-settings', title: '系统设置', icon: 'Setting', path: '/management/settings' },
+      { id: 'parameter-config', title: '参数配置', icon: 'Operation', path: '/management/config' },
+      { id: 'maintenance', title: '维护管理', icon: 'Tools', path: '/management/maintenance' }
     ]
   }
 ]

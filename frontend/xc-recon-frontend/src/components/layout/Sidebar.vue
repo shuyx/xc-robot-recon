@@ -5,11 +5,15 @@
       <!-- 系统Logo区域 -->
       <div class="logo-area">
         <div class="logo-content">
-          <i class="fa-solid fa-robot logo-icon"></i>
+          <el-icon class="logo-icon">
+            <Avatar />
+          </el-icon>
           <span class="logo-text">XC-OS v3.0</span>
         </div>
         <button class="collapse-button" @click="toggleCollapse">
-          <i class="fa-solid fa-chevron-left"></i>
+          <el-icon>
+            <ArrowLeft />
+          </el-icon>
         </button>
       </div>
       
@@ -23,7 +27,9 @@
             class="search-input"
             @input="handleSearch"
           >
-          <i class="fa-solid fa-search search-icon"></i>
+          <el-icon class="search-icon">
+            <Search />
+          </el-icon>
         </div>
       </div>
       
@@ -42,14 +48,16 @@
             @click="toggleMenuGroup(menu.id)"
           >
             <div class="group-title">
-              <i :class="menu.icon" :style="{ color: getMenuColor(menu.id) }"></i>
+              <el-icon :color="getMenuColor(menu.id)">
+                <component :is="menu.icon" />
+              </el-icon>
               <span>{{ menu.title }}</span>
             </div>
             <div class="group-toggle">
-              <i 
-                class="fa-solid" 
-                :class="expandedGroups.includes(menu.id) ? 'fa-chevron-up' : 'fa-chevron-down'"
-              ></i>
+              <el-icon>
+                <ArrowUp v-if="expandedGroups.includes(menu.id)" />
+                <ArrowDown v-else />
+              </el-icon>
             </div>
           </div>
           
@@ -65,7 +73,9 @@
               :class="{ 'active': activeMenuId === child.id }"
               @click="handleMenuItemClick(child)"
             >
-              <i :class="child.icon" class="item-icon"></i>
+              <el-icon class="item-icon">
+                <component :is="child.icon" />
+              </el-icon>
               <span class="item-title">{{ child.title }}</span>
             </div>
           </div>
@@ -75,11 +85,15 @@
       <!-- 系统状态区域 -->
       <div class="system-status">
         <div class="status-item">
-          <i class="fa-solid fa-circle status-online"></i>
+          <el-icon class="status-online">
+            <Connection />
+          </el-icon>
           <span class="status-text">系统状态: 正常</span>
         </div>
         <div class="status-item">
-          <i class="fa-solid fa-signal status-signal"></i>
+          <el-icon class="status-signal">
+            <Promotion />
+          </el-icon>
           <span class="status-text">连接设备: 3台</span>
         </div>
       </div>
@@ -89,7 +103,9 @@
     <div v-else class="sidebar-collapsed">
       <!-- 系统Logo图标 -->
       <div class="collapsed-logo" @click="toggleCollapse">
-        <i class="fa-solid fa-robot logo-icon"></i>
+        <el-icon class="logo-icon">
+          <Avatar />
+        </el-icon>
       </div>
       
       <!-- 折叠状态菜单图标 -->
@@ -102,17 +118,23 @@
           :title="menu.title"
           @click="handleCollapsedMenuClick(menu, index)"
         >
-          <i :class="menu.icon" :style="{ color: getMenuColor(menu.id) }"></i>
+          <el-icon :color="getMenuColor(menu.id)">
+            <component :is="menu.icon" />
+          </el-icon>
         </div>
       </div>
       
       <!-- 折叠状态系统状态图标 -->
       <div class="collapsed-status">
         <div class="collapsed-status-item" title="系统状态: 正常">
-          <i class="fa-solid fa-circle status-online"></i>
+          <el-icon class="status-online">
+            <Connection />
+          </el-icon>
         </div>
         <div class="collapsed-status-item" title="连接设备: 3台">
-          <i class="fa-solid fa-signal status-signal"></i>
+          <el-icon class="status-signal">
+            <Promotion />
+          </el-icon>
         </div>
       </div>
     </div>
@@ -123,6 +145,15 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { menuConfig, menuIconColors, type MenuItem } from '@/config/menu'
+import { 
+  Avatar, 
+  ArrowLeft, 
+  ArrowUp, 
+  ArrowDown, 
+  Search,
+  Connection,
+  Promotion
+} from '@element-plus/icons-vue'
 
 // Props
 interface Props {
@@ -317,6 +348,8 @@ onUnmounted(() => {
 .logo-icon {
   color: var(--primary-color, #409EFF);
   font-size: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 .logo-text {
@@ -375,6 +408,8 @@ onUnmounted(() => {
   transform: translateY(-50%);
   color: #9CA3AF;
   font-size: 14px;
+  width: 16px;
+  height: 16px;
 }
 
 /* 菜单组区域 */
@@ -412,15 +447,20 @@ onUnmounted(() => {
   gap: 8px;
 }
 
-.group-title i {
+.group-title .el-icon {
   width: 20px;
-  text-align: center;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.group-toggle i {
+.group-toggle .el-icon {
   font-size: 12px;
   color: #9CA3AF;
   transition: transform 0.3s ease;
+  width: 16px;
+  height: 16px;
 }
 
 /* 菜单项列表 */
@@ -450,7 +490,10 @@ onUnmounted(() => {
   color: #9CA3AF;
   font-size: 14px;
   width: 16px;
-  text-align: center;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .menu-item.active .item-icon {
