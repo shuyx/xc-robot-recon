@@ -60,7 +60,9 @@ const handleSidebarToggle = () => {
 
 // 处理日志面板切换
 const handleLogPanelToggle = () => {
+  console.log('LogPanel切换前:', logPanelOpen.value)
   logPanelOpen.value = !logPanelOpen.value
+  console.log('LogPanel切换后:', logPanelOpen.value)
 }
 
 // 处理菜单点击

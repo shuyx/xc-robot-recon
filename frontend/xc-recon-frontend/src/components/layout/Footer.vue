@@ -4,8 +4,7 @@
       <!-- Left Side - Copyright Info -->
       <div class="footer-left">
         <div class="footer-brand">
-          <i class="fa-solid fa-microchip footer-icon"></i>
-          <span class="footer-text">XC_OS System</span>
+          <!-- 移除XC_OS System文字，只保留版权信息 -->
         </div>
         <div class="footer-copyright">
           © 2025 祥承 Technology. All rights reserved.

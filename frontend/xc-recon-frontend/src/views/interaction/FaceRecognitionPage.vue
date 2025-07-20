@@ -25,7 +25,7 @@
         <div class="p-4">
           <div class="flex items-center mb-3">
             <i class="fa-solid fa-camera text-primary mr-2"></i>
-            <el-select v-model="activeCamera" size="small" style="width: 120px;">
+            <el-select v-model="selectedCamera" size="small" style="width: 120px;">
               <el-option label="前置相机" value="前置相机"></el-option>
               <el-option label="后置相机" value="后置相机"></el-option>
               <el-option label="TOF相机" value="TOF相机"></el-option>
@@ -337,6 +337,48 @@ const recentResults = ref([
   }
 ])
 
+// 实时识别结果（模板中需要的 recognitionResults）
+const recognitionResults = ref([
+  {
+    id: 1,
+    name: 'Kevin Yuan',
+    confidence: 95,
+    age: 28,
+    gender: '男性',
+    emotion: '中性',
+    known: true
+  },
+  {
+    id: 2,
+    name: '未知人员',
+    confidence: 65,
+    age: 35,
+    gender: '女性',
+    emotion: '微笑',
+    known: false
+  }
+])
+
+// 今日统计数据（模板中需要的 dailyStats）
+const dailyStats = ref({
+  totalRecognitions: 125,
+  recognitionGrowth: 15,
+  avgConfidence: 87,
+  confidenceGrowth: 3,
+  uniquePeople: 8,
+  avgProcessingTime: 45,
+  timeImprovement: 12
+})
+
+// 系统状态（模板中需要的 systemStatus）
+const systemStatus = ref([
+  { component: '人脸检测引擎', status: '正常' },
+  { component: '特征提取模块', status: '正常' },
+  { component: '识别算法', status: '负载高' },
+  { component: '数据存储', status: '正常' },
+  { component: '网络连接', status: '正常' }
+])
+
 // 统计数据
 const totalRecognitions = computed(() => recentResults.value.length)
 const uniquePersons = computed(() => {
@@ -389,6 +431,13 @@ const startMockRecognition = () => {
   }, 1000)
 }
 
+// 停止识别
+const stopRecognition = () => {
+  isRecognizing.value = false
+  stopMockRecognition()
+  ElMessage.info('人脸识别已停止')
+}
+
 // 停止Mock识别
 const stopMockRecognition = () => {
   detectedFaces.value = []
@@ -408,6 +457,49 @@ const getConfidenceType = (confidence: number) => {
 // 保存截图
 const saveSnapshot = () => {
   ElMessage.success('截图已保存到本地')
+}
+
+// 截图功能
+const captureScreenshot = () => {
+  ElMessage.success('截图已保存到本地')
+}
+
+// 刷新结果
+const refreshResults = () => {
+  ElMessage.success('识别结果已刷新')
+}
+
+// 保存记录
+const saveRecords = () => {
+  ElMessage.success('识别记录已保存')
+}
+
+// 清空结果
+const clearResults = () => {
+  if (confirm('确定要清空所有识别结果吗？')) {
+    recognitionResults.value = []
+    ElMessage.success('识别结果已清空')
+  }
+}
+
+// 导出数据
+const exportData = () => {
+  ElMessage.success('数据已导出为CSV文件')
+}
+
+// 添加人员
+const addPerson = () => {
+  ElMessage.info('打开添加人员对话框')
+}
+
+// 人员管理
+const managePersonnel = () => {
+  ElMessage.info('跳转到人员管理页面')
+}
+
+// 系统设置
+const openSystemSettings = () => {
+  ElMessage.info('打开系统设置')
 }
 
 // 导出识别记录

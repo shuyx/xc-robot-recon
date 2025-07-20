@@ -52,7 +52,7 @@
       <div class="right-area">
         <!-- Log Panel Toggle -->
         <div class="log-panel-toggle">
-          <button class="log-panel-button" @click="emit('toggle-log-panel')" title="切换日志面板">
+          <button class="log-panel-button" @click="handleLogPanelClick" title="切换日志面板">
             <el-icon>
               <Document />
             </el-icon>
@@ -260,6 +260,12 @@ const handleSearchBlur = () => {
 const handleSuggestionClick = (suggestion: any) => {
   console.log('选择建议:', suggestion)
   showSearchSuggestions.value = false
+}
+
+// 处理日志面板按钮点击
+const handleLogPanelClick = () => {
+  console.log('Header: 日志按钮被点击')
+  emit('toggle-log-panel')
 }
 
 // 监听Ctrl+K快捷键

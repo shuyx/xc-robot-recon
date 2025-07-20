@@ -166,7 +166,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, nextTick } from 'vue'
+import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { 
   Document, ArrowRight, ArrowLeft, Close, Bell, Aim, 
   CircleCheck, Search, Download, Delete, Refresh, 
@@ -193,6 +193,11 @@ const isOpen = ref(props.isOpen)
 const activeTab = ref('realtime')
 const searchQuery = ref('')
 const logContent = ref<HTMLElement>()
+
+// Watch props changes
+watch(() => props.isOpen, (newValue) => {
+  isOpen.value = newValue
+}, { immediate: true })
 
 // Tabs configuration
 const tabs = ref([
