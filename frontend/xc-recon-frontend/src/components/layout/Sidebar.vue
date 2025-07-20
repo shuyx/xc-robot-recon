@@ -202,9 +202,20 @@ const route = useRoute()
 
 // 响应式数据
 const searchQuery = ref('')
-const expandedGroups = ref(['quick-launch', 'robot-control', 'scene-testing']) // 默认展开的菜单组
-const activeGroupId = ref('robot-control') // 当前激活的菜单组
-const activeMenuId = ref('arm-control') // 当前激活的菜单项
+// 默认展开所有菜单组，避免启动时菜单折叠
+const expandedGroups = ref([
+  'quick-launch', 
+  'device-connection', 
+  'robot-control', 
+  'intelligent-interaction', 
+  'scene-testing', 
+  'simulation-planning', 
+  'visual-perception', 
+  'data-monitoring', 
+  'system-management'
+])
+const activeGroupId = ref('') // 当前激活的菜单组，初始为空，由路由确定
+const activeMenuId = ref('') // 当前激活的菜单项，初始为空，由路由确定
 
 // 计算属性 - 过滤搜索结果
 const filteredMenuConfig = computed(() => {
@@ -371,8 +382,18 @@ const handleSearch = () => {
     })
     expandedGroups.value = newExpandedGroups
   } else {
-    // 清空搜索时恢复默认展开状态
-    expandedGroups.value = ['quick-launch', 'robot-control', 'scene-testing']
+    // 清空搜索时恢复默认展开状态（所有菜单组）
+    expandedGroups.value = [
+      'quick-launch', 
+      'device-connection', 
+      'robot-control', 
+      'intelligent-interaction', 
+      'scene-testing', 
+      'simulation-planning', 
+      'visual-perception', 
+      'data-monitoring', 
+      'system-management'
+    ]
   }
 }
 
@@ -461,7 +482,7 @@ const handleKeyboardShortcut = (event: KeyboardEvent) => {
 // 监听路由变化，更新高亮状态
 watch(() => route.path, () => {
   updateActiveStateFromRoute()
-}, { immediate: false })
+}, { immediate: true })
 
 // 组件挂载时设置键盘监听和初始化高亮状态
 onMounted(() => {

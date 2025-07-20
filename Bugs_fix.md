@@ -1657,3 +1657,150 @@ import {
 4. **文档更新**: 更新开发规范，标注项目为纯中文界面
 
 **状态**: 🟢 已解决
+
+---
+
+## Bug #015 - 侧边栏菜单高亮和折叠问题
+
+**Bug ID**: Bug #015  
+**发现日期**: 2025-07-20  
+**修复日期**: 2025-07-20  
+**严重级别**: High  
+**影响范围**: 前端侧边栏菜单交互功能  
+**修复人员**: Claude AI Assistant  
+
+### 问题描述
+用户报告了两个主要的侧边栏菜单问题：
+1. **高亮问题**: 开启软件或刷新后，侧边栏没有高亮，且任何菜单只有点击才有高亮，离开后高亮结束，点击二级菜单时一级菜单高亮消失
+2. **折叠问题**: 启动软件或刷新软件时，侧边栏菜单全部折叠，用户体验不佳
+
+### 根本原因
+通过代码分析发现两个关键问题：
+1. **路由监听问题**: `watch(() => route.path)` 设置了 `{ immediate: false }`，导致初始加载时不会触发高亮更新
+2. **默认展开状态不完整**: `expandedGroups` 只包含部分菜单组 `['quick-launch', 'robot-control', 'scene-testing']`，没有包含全部9个菜单组
+
+### 修复方案
+
+#### 修复步骤 1: 修复路由监听immediate问题
+**文件**: `/src/components/layout/Sidebar.vue:473-475`
+
+**修改前**:
+```typescript
+watch(() => route.path, () => {
+  updateActiveStateFromRoute()
+}, { immediate: false })
+```
+
+**修改后**:
+```typescript
+watch(() => route.path, () => {
+  updateActiveStateFromRoute()
+}, { immediate: true })
+```
+
+**原因**: `immediate: true` 确保组件初始化时就会根据当前路由设置正确的高亮状态
+
+#### 修复步骤 2: 初始化状态优化
+**文件**: `/src/components/layout/Sidebar.vue:205-218`
+
+**修改前**:
+```typescript
+const expandedGroups = ref(['quick-launch', 'robot-control', 'scene-testing'])
+const activeGroupId = ref('robot-control')
+const activeMenuId = ref('arm-control')
+```
+
+**修改后**:
+```typescript
+// 默认展开所有菜单组，避免启动时菜单折叠
+const expandedGroups = ref([
+  'quick-launch', 
+  'device-connection', 
+  'robot-control', 
+  'intelligent-interaction', 
+  'scene-testing', 
+  'simulation-planning', 
+  'visual-perception', 
+  'data-monitoring', 
+  'system-management'
+])
+const activeGroupId = ref('') // 初始为空，由路由确定
+const activeMenuId = ref('') // 初始为空，由路由确定
+```
+
+#### 修复步骤 3: 搜索清空时状态恢复
+**文件**: `/src/components/layout/Sidebar.vue:385-397`
+
+**修改前**:
+```typescript
+expandedGroups.value = ['quick-launch', 'robot-control', 'scene-testing']
+```
+
+**修改后**:
+```typescript
+// 清空搜索时恢复默认展开状态（所有菜单组）
+expandedGroups.value = [
+  'quick-launch', 
+  'device-connection', 
+  'robot-control', 
+  'intelligent-interaction', 
+  'scene-testing', 
+  'simulation-planning', 
+  'visual-perception', 
+  'data-monitoring', 
+  'system-management'
+]
+```
+
+### 技术要点
+
+#### Vue3 Router集成优化
+- **immediate监听**: 确保组件挂载时立即根据当前路由设置状态
+- **状态初始化**: 将硬编码的初始状态改为空值，由路由动态确定
+- **一致性保证**: 搜索状态恢复与初始状态保持一致
+
+#### 用户体验改进
+- **菜单展开**: 默认展开所有菜单组，提升首次使用体验
+- **高亮持久化**: 高亮状态与路由绑定，刷新后保持一致
+- **状态同步**: 父级和子级菜单高亮状态正确同步
+
+### 修复结果
+- ✅ **高亮问题彻底解决**: 启动和刷新后菜单正确高亮当前页面
+- ✅ **折叠问题完全修复**: 所有菜单组默认展开，用户体验优良
+- ✅ **状态同步正常**: 一级菜单和二级菜单高亮状态协调一致
+- ✅ **路由响应正确**: 路由变化时菜单状态实时更新
+- ✅ **搜索功能稳定**: 搜索清空后菜单状态正确恢复
+
+### 验证测试
+**测试环境**: http://localhost:5173/
+
+**测试场景**:
+1. **刷新测试**: 在任意页面刷新，检查菜单高亮是否正确
+2. **导航测试**: 点击不同菜单项，检查高亮状态是否正确切换
+3. **折叠测试**: 检查所有菜单组是否默认展开
+4. **搜索测试**: 搜索后清空，检查菜单状态是否恢复
+
+**验证结果**:
+- ✅ 首次加载：所有菜单组展开，当前页面正确高亮
+- ✅ 页面刷新：高亮状态保持，无高亮丢失
+- ✅ 菜单导航：父子级高亮状态协调，无残留高亮
+- ✅ 搜索功能：状态恢复正确，用户体验流畅
+
+### 相关Commit
+实时修复，主要修改：
+- Sidebar.vue路由监听immediate设置
+- 默认展开状态包含所有菜单组
+- 初始高亮状态由路由动态确定
+
+### 回归风险
+- **极低风险**: 仅优化菜单状态管理，不影响核心功能
+- **影响范围**: 前端侧边栏菜单交互体验
+- **性能影响**: 无负面影响，反而减少了状态管理复杂度
+
+### 技术改进
+1. **响应式设计**: 菜单状态与路由深度绑定，自动同步
+2. **用户体验**: 默认展开策略提升首次使用体验
+3. **代码简化**: 减少硬编码状态，提高可维护性
+4. **一致性保证**: 所有状态恢复逻辑统一使用相同的菜单组列表
+
+**状态**: 🟢 已解决
