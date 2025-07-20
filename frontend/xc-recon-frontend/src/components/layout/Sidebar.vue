@@ -17,28 +17,11 @@
         </button>
       </div>
       
-      <!-- 全局搜索区域 -->
-      <div class="search-area">
-        <div class="search-wrapper">
-          <input 
-            v-model="searchQuery"
-            type="text" 
-            placeholder="搜索功能..." 
-            class="search-input"
-            @input="handleSearch"
-            @keydown.enter="handleSearchEnter"
-            @keydown.escape="clearSearch"
-          >
-          <el-icon class="search-icon">
-            <Search />
-          </el-icon>
-        </div>
-      </div>
       
       <!-- 菜单组区域 -->
       <div class="menu-groups">
         <div 
-          v-for="(menu, index) in filteredMenuConfig" 
+          v-for="(menu, index) in menuConfig" 
           :key="menu.id" 
           class="menu-group"
           :data-menu-id="menu.id"
@@ -152,7 +135,6 @@ import {
   ArrowLeft, 
   ArrowUp, 
   ArrowDown, 
-  Search,
   Connection,
   Promotion,
   SetUp,
@@ -201,31 +183,10 @@ const router = useRouter()
 const route = useRoute()
 
 // 响应式数据
-const searchQuery = ref('')
 const expandedGroups = ref(['quick-launch', 'robot-control', 'scene-testing']) // 默认展开的菜单组
 const activeGroupId = ref('robot-control') // 当前激活的菜单组
 const activeMenuId = ref('arm-control') // 当前激活的菜单项
 
-// 计算属性 - 过滤搜索结果
-const filteredMenuConfig = computed(() => {
-  if (!searchQuery.value.trim()) {
-    return menuConfig
-  }
-  
-  const query = searchQuery.value.toLowerCase()
-  return menuConfig.map(menu => ({
-    ...menu,
-    children: menu.children?.filter(child => 
-      child.title.toLowerCase().includes(query) ||
-      menu.title.toLowerCase().includes(query) ||
-      // 添加更多搜索关键词支持
-      getSearchKeywords(child).some(keyword => keyword.includes(query))
-    )
-  })).filter(menu => 
-    menu.title.toLowerCase().includes(query) || 
-    (menu.children && menu.children.length > 0)
-  )
-})
 
 // 获取菜单图标颜色
 const getMenuColor = (menuId: string): string => {
@@ -359,40 +320,6 @@ const getSearchKeywords = (menuItem: MenuItem): string[] => {
   return keywords.map(k => k.toLowerCase())
 }
 
-// 处理搜索输入
-const handleSearch = () => {
-  // 搜索时自动展开包含搜索结果的菜单组
-  if (searchQuery.value.trim()) {
-    const newExpandedGroups: string[] = []
-    filteredMenuConfig.value.forEach(menu => {
-      if (menu.children && menu.children.length > 0) {
-        newExpandedGroups.push(menu.id)
-      }
-    })
-    expandedGroups.value = newExpandedGroups
-  } else {
-    // 清空搜索时恢复默认展开状态
-    expandedGroups.value = ['quick-launch', 'robot-control', 'scene-testing']
-  }
-}
-
-// 处理搜索回车键
-const handleSearchEnter = () => {
-  // 如果有搜索结果，自动点击第一个菜单项
-  if (searchQuery.value.trim() && filteredMenuConfig.value.length > 0) {
-    const firstMenu = filteredMenuConfig.value[0]
-    if (firstMenu.children && firstMenu.children.length > 0) {
-      const firstChild = firstMenu.children[0]
-      handleMenuItemClick(firstChild)
-    }
-  }
-}
-
-// 清空搜索
-const clearSearch = () => {
-  searchQuery.value = ''
-  handleSearch()
-}
 
 // 查找菜单项的父级菜单组ID
 const findParentGroupId = (menuItemId: string): string | null => {
@@ -537,51 +464,6 @@ onUnmounted(() => {
   color: white;
 }
 
-/* 全局搜索区域 */
-.search-area {
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.search-wrapper {
-  position: relative;
-}
-
-.search-input {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: white;
-  padding: 8px 12px 8px 36px;
-  border-radius: 6px;
-  outline: none;
-  transition: background-color 0.3s ease;
-}
-
-.search-input::placeholder {
-  color: #9CA3AF;
-}
-
-.search-input:focus {
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 1px var(--primary-color, #409EFF);
-}
-
-.search-input:not(:placeholder-shown) {
-  background: rgba(64, 158, 255, 0.1);
-  border: 1px solid var(--primary-color, #409EFF);
-}
-
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9CA3AF;
-  font-size: 14px;
-  width: 16px;
-  height: 16px;
-}
 
 /* 菜单组区域 */
 .menu-groups {

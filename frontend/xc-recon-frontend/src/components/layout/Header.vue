@@ -11,42 +11,6 @@
         </span>
       </div>
 
-      <!-- Search Area -->
-      <div class="search-area">
-        <div class="search-input-wrapper">
-          <input 
-            v-model="searchQuery"
-            type="text" 
-            class="search-input" 
-            placeholder="搜索功能模块..."
-            @focus="showSearchSuggestions = true"
-            @blur="handleSearchBlur"
-          >
-          <div class="search-icon">
-            <el-icon>
-              <Search />
-            </el-icon>
-          </div>
-          <div class="search-shortcut">
-            Ctrl+K
-          </div>
-        </div>
-        
-        <!-- Search Suggestions -->
-        <div v-if="showSearchSuggestions" class="search-suggestions">
-          <div class="suggestions-content">
-            <div 
-              v-for="suggestion in searchSuggestions" 
-              :key="suggestion.id"
-              class="suggestion-item"
-              @click="handleSuggestionClick(suggestion)"
-            >
-              <i :class="suggestion.icon" class="suggestion-icon"></i>
-              <span>{{ suggestion.title }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Right Side Area -->
       <div class="right-area">
@@ -208,9 +172,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
 import { 
-  Search, 
   Bell, 
   User, 
   Setting, 
@@ -227,29 +189,6 @@ const emit = defineEmits<{
   'toggle-log-panel': []
 }>()
 
-const searchQuery = ref('')
-const showSearchSuggestions = ref(false)
-
-// 搜索建议数据
-const searchSuggestions = ref([
-  { id: 'smart-chat', icon: 'fa-solid fa-comments text-primary', title: '智能对话' },
-  { id: 'face-recognition', icon: 'fa-solid fa-user-check text-primary', title: '人脸识别' },
-  { id: 'arm-control', icon: 'fa-solid fa-robot text-primary', title: '机械臂控制' },
-  { id: 'device-connection', icon: 'fa-solid fa-plug-circle-check text-primary', title: '设备连接' }
-])
-
-// 处理搜索失焦
-const handleSearchBlur = () => {
-  setTimeout(() => {
-    showSearchSuggestions.value = false
-  }, 200)
-}
-
-// 处理建议点击
-const handleSuggestionClick = (suggestion: any) => {
-  console.log('选择建议:', suggestion)
-  showSearchSuggestions.value = false
-}
 
 // 处理日志面板按钮点击
 const handleLogPanelClick = () => {
@@ -258,16 +197,6 @@ const handleLogPanelClick = () => {
 }
 
 
-// 监听Ctrl+K快捷键
-onMounted(() => {
-  window.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-      e.preventDefault()
-      const searchInput = document.querySelector('.search-input') as HTMLInputElement
-      searchInput?.focus()
-    }
-  })
-})
 </script>
 
 <style scoped>
@@ -321,86 +250,6 @@ onMounted(() => {
   color: var(--primary-color, #409EFF);
 }
 
-/* Search Area */
-.search-area {
-  flex: 1;
-  max-width: 400px;
-  margin: 0 32px;
-  position: relative;
-}
-
-.search-input-wrapper {
-  position: relative;
-}
-
-.search-input {
-  width: 100%;
-  padding: 8px 12px 8px 40px;
-  border: 1px solid #dcdfe6;
-  border-radius: 6px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.search-input:focus {
-  border-color: var(--primary-color, #409EFF);
-  box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.2);
-}
-
-.search-icon {
-  position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #909399;
-}
-
-.search-shortcut {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #909399;
-  font-size: 12px;
-  background: #f5f7fa;
-  padding: 2px 6px;
-  border-radius: 3px;
-}
-
-.search-suggestions {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  margin-top: 4px;
-  background: white;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  border: 1px solid #e4e7ed;
-  z-index: 50;
-}
-
-.suggestions-content {
-  padding: 8px;
-}
-
-.suggestion-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.suggestion-item:hover {
-  background: #f5f7fa;
-}
-
-.suggestion-icon {
-  color: var(--primary-color, #409EFF);
-}
 
 /* Right Area */
 .right-area {
