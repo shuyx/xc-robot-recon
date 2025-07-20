@@ -4,7 +4,7 @@
       <!-- Brand Logo Area -->
       <div class="brand-area">
         <div class="logo-icon">
-          <i class="fa-solid fa-microchip"></i>
+          <img src="@/assets/xclogo.png" alt="XC Logo" class="logo-image" />
         </div>
         <span class="brand-text">
           XC-OS <span class="version-text">v3.0</span>
@@ -161,7 +161,7 @@
             <div class="user-avatar">
               <span>K</span>
             </div>
-            <span class="user-name">Kevin</span>
+            <span class="user-name">Kevin Yuan</span>
             <i class="fa-solid fa-chevron-down user-chevron"></i>
           </button>
           <div class="user-menu">
@@ -170,7 +170,7 @@
                 <span>K</span>
               </div>
               <div class="user-details">
-                <div class="user-full-name">Kevin Zhang</div>
+                <div class="user-full-name">Kevin Yuan</div>
                 <div class="user-role">管理员</div>
               </div>
             </div>
@@ -262,12 +262,16 @@ onMounted(() => {
   width: 32px;
   height: 32px;
   border-radius: 6px;
-  background: linear-gradient(135deg, var(--primary-color, #409EFF) 0%, var(--success-color, #00A870) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-weight: bold;
+  overflow: hidden;
+}
+
+.logo-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .brand-text {
@@ -277,7 +281,8 @@ onMounted(() => {
 }
 
 .version-text {
-  font-size: 12px;
+  font-size: 14px;
+  font-weight: bold;
   color: var(--primary-color, #409EFF);
 }
 

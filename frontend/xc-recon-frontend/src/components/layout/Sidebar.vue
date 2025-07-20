@@ -466,7 +466,6 @@ onUnmounted(() => {
 /* 菜单项列表 */
 .menu-items {
   background: var(--group-bg-color, rgba(255, 255, 255, 0.05));
-  padding-left: 44px;
 }
 
 .menu-item {
@@ -474,8 +473,10 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
+  margin: 0 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  border-radius: 4px;
 }
 
 .menu-item:hover {
