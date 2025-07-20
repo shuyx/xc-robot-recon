@@ -4,6 +4,9 @@ import { menuConfig } from '@/config/menu'
 
 // 页面组件映射配置
 const componentMap: Record<string, () => Promise<any>> = {
+  // 测试页面
+  'icon-test': () => import('@/views/IconTest.vue'),
+  
   // 快速启动
   'main-dashboard': () => import('@/views/Dashboard.vue'),
   'favorites': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
@@ -90,6 +93,18 @@ export function generateChildRoutes(): RouteRecordRaw[] {
           }
         }
       })
+    }
+  })
+  
+  // 添加图标测试页面路由
+  routes.push({
+    path: '/icon-test',
+    name: 'icon-test',
+    component: componentMap['icon-test'],
+    meta: {
+      title: '图标测试',
+      icon: 'fa-solid fa-vials',
+      hidden: false
     }
   })
   

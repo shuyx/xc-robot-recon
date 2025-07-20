@@ -2,7 +2,7 @@
   <el-container class="layout-container">
     <!-- Header Component -->
     <el-header class="layout-header" height="64px">
-      <HeaderComponent />
+      <HeaderComponent @toggle-log-panel="handleLogPanelToggle" />
     </el-header>
     
     <!-- Body Container -->
@@ -23,6 +23,13 @@
       <el-main class="layout-main">
         <router-view />
       </el-main>
+      
+      <!-- Log Panel Component -->
+      <LogPanelComponent 
+        :is-open="logPanelOpen"
+        @update:isOpen="handleLogPanelToggle"
+        @toggle="handleLogPanelToggle"
+      />
     </el-container>
     
     <!-- Footer Component -->
@@ -36,16 +43,24 @@ import { useRouter } from 'vue-router'
 import HeaderComponent from './Header.vue'
 import SidebarComponent from './Sidebar.vue'
 import FooterComponent from './Footer.vue'
+import LogPanelComponent from './LogPanel.vue'
 import type { MenuItem } from '@/config/menu'
 
 const router = useRouter()
 
 // 侧边栏折叠状态
 const sidebarCollapsed = ref(false)
+// 日志面板开关状态
+const logPanelOpen = ref(false)
 
 // 处理侧边栏折叠切换
 const handleSidebarToggle = () => {
   sidebarCollapsed.value = !sidebarCollapsed.value
+}
+
+// 处理日志面板切换
+const handleLogPanelToggle = () => {
+  logPanelOpen.value = !logPanelOpen.value
 }
 
 // 处理菜单点击
@@ -85,6 +100,7 @@ const handleMenuClick = (menuItem: MenuItem) => {
 .layout-body {
   padding-top: 64px;
   height: calc(100vh - 64px - 48px);
+  position: relative;
 }
 
 .layout-sidebar {
@@ -92,14 +108,16 @@ const handleMenuClick = (menuItem: MenuItem) => {
   transition: width 0.3s ease;
   border-right: 1px solid #e4e7ed;
   overflow: hidden;
+  height: 100%;
 }
 
 .layout-main {
   background: #f5f7fa;
   padding: 20px;
-  padding-bottom: 88px; /* Footer height (48px) + extra margin (40px) */
+  padding-bottom: 68px; /* 给footer留出空间 */
   overflow-y: auto;
-  min-height: calc(100vh - 64px - 48px);
+  height: 100%;
+  position: relative;
 }
 
 /* CSS变量定义 - 匹配sidebar_nav.html的配色 */

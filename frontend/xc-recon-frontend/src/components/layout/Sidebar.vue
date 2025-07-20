@@ -8,7 +8,7 @@
           <el-icon class="logo-icon">
             <Avatar />
           </el-icon>
-          <span class="logo-text">XC-OS v3.0</span>
+          <span class="logo-text">机器人系统</span>
         </div>
         <button class="collapse-button" @click="toggleCollapse">
           <el-icon>
@@ -510,6 +510,7 @@ onUnmounted(() => {
   margin-top: auto;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 12px 16px;
+  flex-shrink: 0;
 }
 
 .status-item {
@@ -600,6 +601,7 @@ onUnmounted(() => {
   margin-top: auto;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 8px 0;
+  flex-shrink: 0;
 }
 
 .collapsed-status-item {

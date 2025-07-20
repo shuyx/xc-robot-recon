@@ -23,7 +23,9 @@
             @blur="handleSearchBlur"
           >
           <div class="search-icon">
-            <i class="fa-solid fa-search"></i>
+            <el-icon>
+              <Search />
+            </el-icon>
           </div>
           <div class="search-shortcut">
             Ctrl+K
@@ -48,10 +50,22 @@
 
       <!-- Right Side Area -->
       <div class="right-area">
+        <!-- Log Panel Toggle -->
+        <div class="log-panel-toggle">
+          <button class="log-panel-button" @click="emit('toggle-log-panel')" title="切换日志面板">
+            <el-icon>
+              <Document />
+            </el-icon>
+            <span>日志</span>
+          </button>
+        </div>
+
         <!-- Language Switcher -->
         <div class="language-switcher">
           <button class="language-button">
-            <i class="fa-solid fa-globe"></i>
+            <el-icon>
+              <SwitchButton />
+            </el-icon>
             <span class="language-text">中</span>
             <span class="language-divider">/</span>
             <span class="language-inactive">EN</span>
@@ -63,7 +77,9 @@
           <!-- Connection Status -->
           <div class="status-item">
             <button class="status-button">
-              <i class="fa-solid fa-circle status-normal"></i>
+              <el-icon class="status-normal">
+                <Bell />
+              </el-icon>
               <span>连接</span>
             </button>
             <div class="status-tooltip">
@@ -85,7 +101,9 @@
           <!-- Running Status -->
           <div class="status-item">
             <button class="status-button">
-              <i class="fa-solid fa-bolt status-info"></i>
+              <el-icon class="status-info">
+                <SwitchButton />
+              </el-icon>
               <span>运行</span>
             </button>
             <div class="status-tooltip">
@@ -107,7 +125,9 @@
           <!-- Notifications -->
           <div class="status-item">
             <button class="status-button notification-button">
-              <i class="fa-solid fa-bell"></i>
+              <el-icon>
+                <Bell />
+              </el-icon>
               <span>告警</span>
               <span class="notification-badge">3</span>
             </button>
@@ -119,7 +139,7 @@
               <div class="notification-list">
                 <div class="notification-item">
                   <div class="notification-icon">
-                    <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                    <el-icon class="text-warning"><Warning /></el-icon>
                   </div>
                   <div class="notification-content">
                     <div class="notification-text">温度告警</div>
@@ -129,7 +149,7 @@
                 </div>
                 <div class="notification-item">
                   <div class="notification-icon">
-                    <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+                    <el-icon class="text-danger"><Warning /></el-icon>
                   </div>
                   <div class="notification-content">
                     <div class="notification-text">存储空间不足</div>
@@ -139,7 +159,7 @@
                 </div>
                 <div class="notification-item">
                   <div class="notification-icon">
-                    <i class="fa-solid fa-circle-info text-primary"></i>
+                    <el-icon class="text-primary"><CircleCheck /></el-icon>
                   </div>
                   <div class="notification-content">
                     <div class="notification-text">系统更新</div>
@@ -162,7 +182,9 @@
               <span>K</span>
             </div>
             <span class="user-name">Kevin Yuan</span>
-            <i class="fa-solid fa-chevron-down user-chevron"></i>
+            <el-icon class="user-chevron">
+              <ArrowDown />
+            </el-icon>
           </button>
           <div class="user-menu">
             <div class="user-info">
@@ -176,17 +198,17 @@
             </div>
             <div class="menu-items">
               <span class="menu-item">
-                <i class="fa-solid fa-user"></i>个人设置
+                <el-icon><User /></el-icon>个人设置
               </span>
               <span class="menu-item">
-                <i class="fa-solid fa-gear"></i>系统设置
+                <el-icon><Setting /></el-icon>系统设置
               </span>
               <span class="menu-item">
-                <i class="fa-solid fa-circle-question"></i>帮助文档
+                <el-icon><QuestionFilled /></el-icon>帮助文档
               </span>
               <div class="menu-divider"></div>
               <span class="menu-item logout-item">
-                <i class="fa-solid fa-right-from-bracket"></i>退出登录
+                <el-icon><SwitchButton /></el-icon>退出登录
               </span>
             </div>
           </div>
@@ -198,6 +220,23 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { 
+  Search, 
+  Bell, 
+  User, 
+  Setting, 
+  QuestionFilled, 
+  SwitchButton,
+  Document,
+  ArrowDown,
+  Warning,
+  CircleCheck
+} from '@element-plus/icons-vue'
+
+// Props & Emits
+const emit = defineEmits<{
+  'toggle-log-panel': []
+}>()
 
 const searchQuery = ref('')
 const showSearchSuggestions = ref(false)
@@ -372,6 +411,30 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+/* Log Panel Toggle */
+.log-panel-button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid #dcdfe6;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 14px;
+  color: #606266;
+}
+
+.log-panel-button:hover {
+  border-color: var(--primary-color, #409EFF);
+  background: #f0f8ff;
+}
+
+.log-panel-button .el-icon {
+  color: var(--primary-color, #409EFF);
 }
 
 /* Language Switcher */

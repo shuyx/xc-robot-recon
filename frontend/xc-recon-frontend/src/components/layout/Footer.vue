@@ -35,7 +35,7 @@
         <div class="system-status">
           <div class="status-item">
             <i class="fa-solid fa-circle status-indicator online"></i>
-            <span class="status-text">系统运行正常</span>
+            <span class="status-text">Author: Kevin Yuan</span>
           </div>
           <div class="footer-version">
             <span class="version-label">构建版本:</span>
