@@ -17,7 +17,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/auth/Login.vue'),
+      component: () => import('@/views/Login.vue'),
       meta: {
         title: '用户登录',
         requiresAuth: false
@@ -26,7 +26,7 @@ const router = createRouter({
     {
       path: '/404',
       name: '404',
-      component: () => import('@/views/common/NotFound.vue'),
+      component: () => import('@/views/common/PlaceholderPage.vue'),
       meta: {
         title: '页面未找到'
       }
@@ -49,7 +49,7 @@ router.beforeEach((to, from, next) => {
   }
   
   // 身份验证检查
-  const isAuthenticated = localStorage.getItem('user_token')
+  const isAuthenticated = localStorage.getItem('access_token')
   
   if (to.path === '/login') {
     // 如果已登录用户访问登录页，重定向到主页

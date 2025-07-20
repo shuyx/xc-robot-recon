@@ -5,9 +5,9 @@ import { menuConfig } from '@/config/menu'
 // 页面组件映射配置
 const componentMap: Record<string, () => Promise<any>> = {
   // 快速启动
-  'main-dashboard': () => import('@/views/QuickLaunch.vue'),
-  'favorites': () => import('@/views/quickstart/FavoritesPage.vue'),
-  'recent': () => import('@/views/quickstart/RecentPage.vue'),
+  'main-dashboard': () => import('@/views/Dashboard.vue'),
+  'favorites': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
+  'recent': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
   
   // 设备连接
   'device-connect': () => import('@/views/DeviceConnection.vue'),
@@ -17,7 +17,7 @@ const componentMap: Record<string, () => Promise<any>> = {
   // 机器人控制
   'arm-control': () => import('@/views/robot/ArmControlPage.vue'),
   'chassis-control': () => import('@/views/robot/ChassisControlPage.vue'),
-  'joint-control': () => import('@/views/robot/JointControlPage.vue'),
+  'joint-control': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
   
   // 智能交互
   'face-recognition': () => import('@/views/interaction/FaceRecognitionPage.vue'),
@@ -38,8 +38,8 @@ const componentMap: Record<string, () => Promise<any>> = {
   // 视觉感知
   'vision-system': () => import('@/views/vision/VisionSystemPage.vue'),
   'camera-calibration': () => import('@/views/vision/CameraCalibrationPage.vue'),
-  'point-cloud': () => import('@/views/vision/PointCloudPage.vue'),
-  'image-processing': () => import('@/views/vision/ImageProcessingPage.vue'),
+  'point-cloud': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
+  'image-processing': () => import('@/views/common/PlaceholderPage.vue'), // 暂时使用占位符
   
   // 数据监控
   'system-monitor': () => import('@/views/SystemMonitoring.vue'),

@@ -29,9 +29,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import HeaderComponent from './Header.vue'
 import SidebarComponent from './Sidebar.vue'
 import type { MenuItem } from '@/config/menu'
+
+const router = useRouter()
 
 // 侧边栏折叠状态
 const sidebarCollapsed = ref(false)
@@ -44,6 +47,12 @@ const handleSidebarToggle = () => {
 // 处理菜单点击
 const handleMenuClick = (menuItem: MenuItem) => {
   console.log('菜单点击:', menuItem)
+  
+  // 如果菜单项有路径，进行路由跳转
+  if (menuItem.path) {
+    router.push(menuItem.path)
+  }
+  
   // 在移动端点击菜单项后自动折叠侧边栏
   if (window.innerWidth <= 768) {
     sidebarCollapsed.value = true
