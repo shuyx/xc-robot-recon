@@ -1,165 +1,289 @@
 <template>
-  <div class="face-recognition-page">
-    <el-card class="main-card">
-      <template #header>
-        <div class="card-header">
-          <span class="header-icon">👤</span>
-          <span class="header-title">人脸识别系统</span>
-          <div class="header-actions">
-            <el-button 
-              :type="isRecognizing ? 'danger' : 'primary'" 
-              @click="toggleRecognition"
-              :icon="isRecognizing ? 'VideoPause' : 'VideoPlay'"
-            >
-              {{ isRecognizing ? '停止识别' : '开始识别' }}
-            </el-button>
+  <div id="app" class="w-full h-[calc(100vh-100px)] bg-gray-50 p-6 overflow-y-auto">
+    <!-- Page Header -->
+    <div id="page-header" class="mb-6">
+      <h1 class="text-2xl font-bold text-secondary">人脸识别系统</h1>
+      <p class="text-sm text-gray-500">基于深度学习的实时人脸识别与分析</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content" class="grid grid-cols-12 gap-6">
+      <!-- Camera Preview Section -->
+      <div id="camera-preview" class="col-span-12 lg:col-span-7 bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="flex justify-between items-center px-4 py-3 border-b border-gray-100">
+          <div class="flex items-center">
+            <i class="fa-solid fa-video text-primary mr-2"></i>
+            <h2 class="font-semibold">相机预览区</h2>
+          </div>
+          <div>
+            <button class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded">
+              <i class="fa-solid fa-expand"></i>
+            </button>
           </div>
         </div>
-      </template>
-      
-      <el-row :gutter="20">
-        <!-- 摄像头预览区域 -->
-        <el-col :span="14">
-          <el-card class="camera-section" shadow="never">
-            <template #header>
-              <span>📷 实时预览</span>
-            </template>
-            
-            <div class="camera-container">
-              <div class="video-wrapper">
-                <!-- Mock摄像头画面 -->
-                <div class="mock-camera" :class="{ 'recognition-active': isRecognizing }">
-                  <div v-if="!isRecognizing" class="camera-placeholder">
-                    <el-icon class="placeholder-icon"><VideoCamera /></el-icon>
-                    <p>点击"开始识别"启动摄像头</p>
-                  </div>
-                  
-                  <!-- Mock人脸检测框 -->
-                  <div v-if="isRecognizing && detectedFaces.length > 0" class="detection-overlay">
-                    <div 
-                      v-for="face in detectedFaces" 
-                      :key="face.id"
-                      class="face-box"
-                      :style="{ 
-                        left: face.x + '%', 
-                        top: face.y + '%',
-                        width: face.width + '%',
-                        height: face.height + '%'
-                      }"
-                    >
-                      <div class="face-label">
-                        {{ face.name }}
-                        <span class="confidence">{{ face.confidence }}%</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <!-- Mock实时画面效果 -->
-                  <div v-if="isRecognizing" class="live-indicator">
-                    <div class="live-dot"></div>
-                    <span>LIVE</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </el-card>
-        </el-col>
         
-        <!-- 识别结果区域 -->
-        <el-col :span="10">
-          <el-card class="results-section" shadow="never">
-            <template #header>
-              <span>📊 识别结果</span>
-            </template>
+        <div class="p-4">
+          <div class="flex items-center mb-3">
+            <i class="fa-solid fa-camera text-primary mr-2"></i>
+            <el-select v-model="activeCamera" size="small" style="width: 120px;">
+              <el-option label="前置相机" value="前置相机"></el-option>
+              <el-option label="后置相机" value="后置相机"></el-option>
+              <el-option label="TOF相机" value="TOF相机"></el-option>
+            </el-select>
+          </div>
+          
+          <div id="video-container" class="relative bg-light rounded-lg h-[320px] mb-4 flex items-center justify-center overflow-hidden">
+            <!-- Video placeholder -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d590cfb88c-7f4867bd1f1f5236957a.png" alt="security camera view with facial recognition box around a person">
+            </div>
             
-            <div class="recognition-stats">
-              <div class="stat-item">
-                <div class="stat-value">{{ totalRecognitions }}</div>
-                <div class="stat-label">总识别次数</div>
+            <!-- Face detection box -->
+            <div class="absolute left-[30%] top-[25%] w-[160px] h-[180px] border-2 border-success rounded-md flex flex-col items-center justify-between">
+              <div class="bg-success text-white text-xs px-2 py-0.5 rounded mt-1">
+                Kevin Yuan
               </div>
-              <div class="stat-item">
-                <div class="stat-value">{{ uniquePersons }}</div>
-                <div class="stat-label">识别人数</div>
-              </div>
-              <div class="stat-item">
-                <div class="stat-value">{{ averageConfidence }}%</div>
-                <div class="stat-label">平均置信度</div>
+              <div class="bg-success/80 text-white text-xs px-2 py-0.5 rounded mb-1">
+                95%
               </div>
             </div>
             
-            <el-divider />
-            
-            <div class="results-list">
-              <h4>最近识别记录</h4>
-              <div class="result-item" v-for="result in recentResults" :key="result.id">
-                <div class="result-avatar">
-                  <el-avatar :size="40">{{ result.name.charAt(0) }}</el-avatar>
-                </div>
-                <div class="result-info">
-                  <div class="result-name">{{ result.name }}</div>
-                  <div class="result-time">{{ result.timestamp }}</div>
-                </div>
-                <div class="result-confidence">
-                  <el-tag :type="getConfidenceType(result.confidence)">
-                    {{ result.confidence }}%
-                  </el-tag>
-                </div>
+            <!-- Face detection box for unknown person -->
+            <div class="absolute right-[20%] top-[40%] w-[140px] h-[160px] border-2 border-warning rounded-md flex flex-col items-center justify-between">
+              <div class="bg-warning text-white text-xs px-2 py-0.5 rounded mt-1">
+                未知人员
+              </div>
+              <div class="bg-warning/80 text-white text-xs px-2 py-0.5 rounded mb-1">
+                65%
               </div>
             </div>
-          </el-card>
-        </el-col>
-      </el-row>
+            
+            <!-- Status indicator -->
+            <div class="absolute top-2 left-2 flex items-center bg-black/30 text-white text-xs px-2 py-1 rounded">
+              <span class="w-2 h-2 bg-success rounded-full mr-2"></span>
+              <span>识别中</span>
+            </div>
+          </div>
+          
+          <div class="flex space-x-2">
+            <button 
+              @click="toggleRecognition"
+              class="bg-success hover:bg-success/90 text-white px-4 py-2 rounded text-sm flex items-center"
+            >
+              <i class="fa-solid fa-play mr-1" v-if="!isRecognizing"></i>
+              <i class="fa-solid fa-pause mr-1" v-else></i>
+              {{ isRecognizing ? '暂停' : '开始' }}
+            </button>
+            <button 
+              @click="stopRecognition"
+              class="bg-danger hover:bg-danger/90 text-white px-4 py-2 rounded text-sm flex items-center"
+            >
+              <i class="fa-solid fa-stop mr-1"></i> 停止
+            </button>
+            <button 
+              @click="captureScreenshot"
+              class="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded text-sm flex items-center"
+            >
+              <i class="fa-solid fa-camera mr-1"></i> 截图
+            </button>
+          </div>
+        </div>
+      </div>
       
-      <!-- 控制面板 -->
-      <el-row :gutter="20" class="control-panel">
-        <el-col :span="24">
-          <el-card shadow="never">
-            <template #header>
-              <span>⚙️ 系统控制</span>
-            </template>
-            
-            <el-row :gutter="20">
-              <el-col :span="6">
-                <div class="control-item">
-                  <label>识别阈值</label>
-                  <el-slider v-model="recognitionThreshold" :min="50" :max="99" show-input />
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="control-item">
-                  <label>检测频率 (fps)</label>
-                  <el-select v-model="detectionFps" placeholder="选择检测频率">
-                    <el-option label="5 FPS" :value="5" />
-                    <el-option label="10 FPS" :value="10" />
-                    <el-option label="15 FPS" :value="15" />
-                    <el-option label="30 FPS" :value="30" />
-                  </el-select>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="control-item">
-                  <label>摄像头选择</label>
-                  <el-select v-model="selectedCamera" placeholder="选择摄像头">
-                    <el-option label="TOF相机" value="tof_camera" />
-                    <el-option label="2D相机1" value="2d_camera_1" />
-                    <el-option label="鱼眼相机" value="fisheye_camera" />
-                  </el-select>
-                </div>
-              </el-col>
-              <el-col :span="6">
-                <div class="control-item">
-                  <label>操作</label>
-                  <div class="control-buttons">
-                    <el-button size="small" @click="saveSnapshot">保存截图</el-button>
-                    <el-button size="small" @click="exportResults">导出记录</el-button>
-                  </div>
-                </div>
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-col>
-      </el-row>
-    </el-card>
+      <!-- Recognition Results Section -->
+      <div id="recognition-results" class="col-span-12 lg:col-span-5 bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="flex justify-between items-center px-4 py-3 border-b border-gray-100">
+          <div class="flex items-center">
+            <i class="fa-solid fa-chart-bar text-primary mr-2"></i>
+            <h2 class="font-semibold">识别结果区</h2>
+          </div>
+          <div>
+            <button 
+              @click="refreshResults"
+              class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-1 rounded"
+            >
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div class="p-4 h-[400px] overflow-y-auto">
+          <h3 class="flex items-center text-sm font-medium mb-3">
+            <i class="fa-solid fa-bullseye text-primary mr-2"></i>
+            实时检测结果
+          </h3>
+          
+          <!-- Result items -->
+          <div 
+            v-for="result in recognitionResults" 
+            :key="result.id"
+            :class="[
+              'p-3 mb-3 rounded-r-lg',
+              result.known ? 'bg-light border-l-4 border-success' : 'bg-light border-l-4 border-warning'
+            ]"
+          >
+            <div class="flex items-center mb-2">
+              <div :class="[
+                'w-8 h-8 rounded-full flex items-center justify-center text-white mr-2',
+                result.known ? 'bg-primary' : 'bg-gray-400'
+              ]">
+                <i :class="result.known ? 'fa-solid fa-user' : 'fa-solid fa-question'"></i>
+              </div>
+              <div class="font-medium">{{ result.name }}</div>
+              <div :class="[
+                'ml-auto text-white text-xs px-2 py-0.5 rounded',
+                result.known ? 'bg-success' : 'bg-warning'
+              ]">
+                {{ result.known ? '已识别' : '未识别' }}
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs text-gray-600">
+              <div class="flex items-center">
+                <i class="fa-solid fa-chart-pie text-info mr-1"></i>
+                置信度: <span class="ml-1 font-medium">{{ result.confidence }}%</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fa-solid fa-calendar text-info mr-1"></i>
+                年龄: <span class="ml-1 font-medium">~{{ result.age }}岁</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fa-solid fa-venus-mars text-info mr-1"></i>
+                性别: <span class="ml-1 font-medium">{{ result.gender }}</span>
+              </div>
+              <div class="flex items-center">
+                <i class="fa-solid fa-face-smile text-info mr-1"></i>
+                情绪: <span class="ml-1 font-medium">{{ result.emotion }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Statistics Section -->
+      <div id="statistics" class="col-span-12 lg:col-span-7 grid grid-cols-4 gap-4">
+        <!-- Stat Card 1 -->
+        <div id="stat-card-1" class="bg-white rounded-lg shadow-sm p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-medium">今日识别</h3>
+            <i class="fa-solid fa-users text-primary"></i>
+          </div>
+          <div class="text-2xl font-bold">{{ dailyStats.totalRecognitions }}<span class="text-sm font-normal text-gray-500 ml-1">次</span></div>
+          <div class="text-xs text-success mt-1">
+            <i class="fa-solid fa-arrow-up"></i> {{ dailyStats.recognitionGrowth }}% 较昨日
+          </div>
+        </div>
+        
+        <!-- Stat Card 2 -->
+        <div id="stat-card-2" class="bg-white rounded-lg shadow-sm p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-medium">平均置信度</h3>
+            <i class="fa-solid fa-percent text-primary"></i>
+          </div>
+          <div class="text-2xl font-bold">{{ dailyStats.avgConfidence }}<span class="text-sm font-normal text-gray-500 ml-1">%</span></div>
+          <div class="text-xs text-success mt-1">
+            <i class="fa-solid fa-arrow-up"></i> {{ dailyStats.confidenceGrowth }}% 较昨日
+          </div>
+        </div>
+        
+        <!-- Stat Card 3 -->
+        <div id="stat-card-3" class="bg-white rounded-lg shadow-sm p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-medium">识别人数</h3>
+            <i class="fa-solid fa-user-check text-primary"></i>
+          </div>
+          <div class="text-2xl font-bold">{{ dailyStats.uniquePeople }}<span class="text-sm font-normal text-gray-500 ml-1">人</span></div>
+          <div class="text-xs text-gray-500 mt-1">
+            <i class="fa-solid fa-minus"></i> 与昨日持平
+          </div>
+        </div>
+        
+        <!-- Stat Card 4 -->
+        <div id="stat-card-4" class="bg-white rounded-lg shadow-sm p-4">
+          <div class="flex items-center justify-between mb-2">
+            <h3 class="text-sm font-medium">平均耗时</h3>
+            <i class="fa-solid fa-clock text-primary"></i>
+          </div>
+          <div class="text-2xl font-bold">{{ dailyStats.avgProcessingTime }}<span class="text-sm font-normal text-gray-500 ml-1">ms</span></div>
+          <div class="text-xs text-success mt-1">
+            <i class="fa-solid fa-arrow-down"></i> {{ dailyStats.timeImprovement }}% 较昨日
+          </div>
+        </div>
+      </div>
+      
+      <!-- Operations Section -->
+      <div id="operations" class="col-span-12 lg:col-span-5 bg-white rounded-lg shadow-sm overflow-hidden">
+        <div class="flex justify-between items-center px-4 py-3 border-b border-gray-100">
+          <div class="flex items-center">
+            <i class="fa-solid fa-sliders text-primary mr-2"></i>
+            <h2 class="font-semibold">操作区</h2>
+          </div>
+        </div>
+        
+        <div class="p-4 grid grid-cols-2 gap-3">
+          <button 
+            @click="saveRecords"
+            class="bg-primary hover:bg-primary/90 text-white px-3 py-2 rounded text-sm flex items-center justify-center"
+          >
+            <i class="fa-solid fa-save mr-1"></i> 保存记录
+          </button>
+          <button 
+            @click="clearResults"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded text-sm flex items-center justify-center"
+          >
+            <i class="fa-solid fa-broom mr-1"></i> 清空结果
+          </button>
+          <button 
+            @click="exportData"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded text-sm flex items-center justify-center"
+          >
+            <i class="fa-solid fa-file-export mr-1"></i> 导出数据
+          </button>
+          <button 
+            @click="addPerson"
+            class="bg-success hover:bg-success/90 text-white px-3 py-2 rounded text-sm flex items-center justify-center"
+          >
+            <i class="fa-solid fa-user-plus mr-1"></i> 添加人员
+          </button>
+          <button 
+            @click="managePersonnel"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded text-sm flex items-center justify-center"
+          >
+            <i class="fa-solid fa-address-card mr-1"></i> 人员管理
+          </button>
+          <button 
+            @click="openSystemSettings"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-2 rounded text-sm flex items-center justify-center"
+          >
+            <i class="fa-solid fa-gear mr-1"></i> 系统设置
+          </button>
+        </div>
+        
+        <!-- System Status -->
+        <div class="px-4 py-3 border-t border-gray-100">
+          <h3 class="text-sm font-medium mb-3">系统状态</h3>
+          <div class="flex flex-col space-y-2">
+            <div 
+              v-for="status in systemStatus" 
+              :key="status.component"
+              class="flex items-center justify-between text-xs"
+            >
+              <div class="flex items-center">
+                <span :class="[
+                  'w-2 h-2 rounded-full mr-2',
+                  status.status === '正常' ? 'bg-success' : 
+                  status.status === '负载高' ? 'bg-warning' : 'bg-danger'
+                ]"></span>
+                <span>{{ status.component }}</span>
+              </div>
+              <span :class="[
+                status.status === '正常' ? 'text-success' : 
+                status.status === '负载高' ? 'text-warning' : 'text-danger'
+              ]">{{ status.status }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
