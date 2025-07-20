@@ -473,10 +473,10 @@ onUnmounted(() => {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  margin: 0 16px;
+  margin: 0;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  border-radius: 4px;
+  border-radius: 0;
 }
 
 .menu-item:hover {

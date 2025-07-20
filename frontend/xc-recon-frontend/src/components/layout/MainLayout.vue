@@ -24,6 +24,9 @@
         <router-view />
       </el-main>
     </el-container>
+    
+    <!-- Footer Component -->
+    <FooterComponent />
   </el-container>
 </template>
 
@@ -32,6 +35,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import HeaderComponent from './Header.vue'
 import SidebarComponent from './Sidebar.vue'
+import FooterComponent from './Footer.vue'
 import type { MenuItem } from '@/config/menu'
 
 const router = useRouter()
@@ -80,7 +84,7 @@ const handleMenuClick = (menuItem: MenuItem) => {
 
 .layout-body {
   padding-top: 64px;
-  height: calc(100vh - 64px);
+  height: calc(100vh - 64px - 48px);
 }
 
 .layout-sidebar {
@@ -93,7 +97,9 @@ const handleMenuClick = (menuItem: MenuItem) => {
 .layout-main {
   background: #f5f7fa;
   padding: 20px;
+  padding-bottom: 88px; /* Footer height (48px) + extra margin (40px) */
   overflow-y: auto;
+  min-height: calc(100vh - 64px - 48px);
 }
 
 /* CSS变量定义 - 匹配sidebar_nav.html的配色 */
