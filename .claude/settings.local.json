@@ -30,7 +30,8 @@
       "Bash(npx tailwindcss:*)",
       "Bash(npm uninstall:*)",
       "Bash(git push:*)",
-      "Bash(kill:*)"
+      "Bash(kill:*)",
+      "Bash(npm run install-frontend:*)"
     ],
     "deny": []
   }

@@ -120,7 +120,8 @@ export function generateChildRoutes(): RouteRecordRaw[] {
     meta: {
       title: '技术文档',
       icon: 'fa-solid fa-life-ring',
-      hidden: true
+      hidden: true,
+      requiresAuth: false
     }
   })
   
@@ -131,7 +132,8 @@ export function generateChildRoutes(): RouteRecordRaw[] {
     meta: {
       title: '软件信息',
       icon: 'fa-solid fa-info-circle',
-      hidden: true
+      hidden: true,
+      requiresAuth: false
     }
   })
   

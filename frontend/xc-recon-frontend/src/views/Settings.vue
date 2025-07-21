@@ -133,6 +133,13 @@
             <div class="space-y-6">
               <!-- Language Setting -->
               <div id="language-setting" class="flex flex-col">
+                <!-- Language Setting Tip -->
+                <div class="language-tip">
+                  <div class="tip-content">
+                    <i class="fa-solid fa-info-circle tip-icon"></i>
+                    <span class="tip-text">系统支持中文和英文界面切换</span>
+                  </div>
+                </div>
                 <label class="text-sm font-medium mb-2">语言设置:</label>
                 <div class="relative w-64">
                   <select 
@@ -141,12 +148,7 @@
                   >
                     <option value="zh-CN">中文(简体)</option>
                     <option value="en-US">English</option>
-                    <option value="ja-JP">日本語</option>
-                    <option value="ko-KR">한국어</option>
                   </select>
-                  <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                    <i class="fa-solid fa-chevron-down text-gray-400"></i>
-                  </div>
                 </div>
               </div>
               
@@ -802,6 +804,32 @@ onMounted(() => {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+/* 语言设置提示样式 */
+.language-tip {
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background-color: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 6px;
+}
+
+.tip-content {
+  display: flex;
+  align-items: center;
+}
+
+.tip-icon {
+  color: #1976d2;
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.tip-text {
+  color: #1565c0;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 /* 确保字体一致性 */
