@@ -4,7 +4,7 @@
     <div v-if="!collapsed" class="sidebar-expanded">
       <!-- 系统Logo区域 -->
       <div class="logo-area">
-        <div class="logo-content">
+        <div class="logo-content" @click="goToDashboard">
           <el-icon class="logo-icon">
             <Avatar />
           </el-icon>
@@ -87,7 +87,7 @@
     <!-- 折叠状态的侧边栏 -->
     <div v-else class="sidebar-collapsed">
       <!-- 系统Logo图标 -->
-      <div class="collapsed-logo" @click="toggleCollapse">
+      <div class="collapsed-logo" @click="goToDashboard">
         <el-icon class="logo-icon">
           <Avatar />
         </el-icon>
@@ -127,7 +127,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { menuConfig, menuIconColors, type MenuItem } from '@/config/menu'
 import { 
@@ -183,9 +183,9 @@ const router = useRouter()
 const route = useRoute()
 
 // 响应式数据
-const expandedGroups = ref(['quick-launch', 'robot-control', 'scene-testing']) // 默认展开的菜单组
-const activeGroupId = ref('robot-control') // 当前激活的菜单组
-const activeMenuId = ref('arm-control') // 当前激活的菜单项
+const expandedGroups = ref([]) // 默认所有菜单组都折叠
+const activeGroupId = ref('') // 当前激活的菜单组，初始化时为空，由路由决定
+const activeMenuId = ref('') // 当前激活的菜单项，初始化时为空，由路由决定
 
 
 // 获取菜单图标颜色
@@ -208,6 +208,11 @@ const getMenuColor = (menuId: string): string => {
 // 切换侧边栏折叠状态
 const toggleCollapse = () => {
   emit('toggle-collapse')
+}
+
+// 跳转到Dashboard
+const goToDashboard = () => {
+  router.push('/dashboard')
 }
 
 // 切换菜单组展开/折叠
@@ -388,13 +393,15 @@ const handleKeyboardShortcut = (event: KeyboardEvent) => {
 // 监听路由变化，更新高亮状态
 watch(() => route.path, () => {
   updateActiveStateFromRoute()
-}, { immediate: false })
+}, { immediate: true }) // 立即执行一次
 
 // 组件挂载时设置键盘监听和初始化高亮状态
 onMounted(() => {
   window.addEventListener('keydown', handleKeyboardShortcut)
-  // 初始化时根据当前路由设置高亮状态
-  updateActiveStateFromRoute()
+  // 确保在组件挂载后和DOM更新后立即更新高亮状态
+  nextTick(() => {
+    updateActiveStateFromRoute()
+  })
 })
 
 // 组件卸载时移除键盘监听
@@ -436,6 +443,14 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.logo-content:hover {
+  background: var(--hover-color, rgba(255, 255, 255, 0.1));
 }
 
 .logo-icon {
